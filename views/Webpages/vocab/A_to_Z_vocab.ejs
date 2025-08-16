@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Vocabulary Words | A-Z</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+:root {
+    --primary: #673ab7;
+    --primary-light: #7e57c2;
+    --primary-dark: #512da8;
+    --text-dark: #333;
+    --text-medium: #555;
+    --text-light: #777;
+    --text-light-color: #64748b;
+    --border: #e0e0e0;
+    --bg-light: #f5f5f5;
+    --card-color: #ffffff;
+    --input-bg: #f9f9f9;
+    --table-header: #ede7f6;
+    --table-even: #f9f9f9;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --error: #e74c3c;
+    --error-text: #e74c3c;
+    --accent-color: #7e57c2;
+    --accent-hover: #673ab7;
+    --flashcard-color: #000000;
+    --transition: all 0.3s ease;
+}
+
+/* ====== BODY & CONTAINER ====== */
+.vocabulary-container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* ====== PAGE TITLE ====== */
+h1 {
+    text-align: center;
+    color: var(--text-dark);
+    margin: 2rem 0;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: var(--flashcard-color);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+/* ====== SEARCH CONTAINER ====== */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.date-input {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.search-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* ====== LETTER SECTION ====== */
+.letter-section {
+    margin-bottom: 2.5rem;
+    background: var(--card-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+/* No words container */
+.no-words {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.no-words:hover {
+    transform: translateY(-3px);
+}
+
+.no-words i {
+    font-size: 3rem;
+    color: #673ab7; /* Primary color */
+    margin-bottom: 1rem;
+}
+
+.no-words p {
+    font-size: 1rem;
+    color: #4b5563; /* Medium text color */
+    margin: 0.5rem 0 0;
+    line-height: 1.5;
+}
+
+.no-words a {
+    color: #10b981; /* Accent color for link */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.no-words a:hover {
+    color: #059669;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .no-words {
+        padding: 1.5rem;
+        margin: 1.5rem 1rem;
+    }
+
+    .no-words i {
+        font-size: 2.5rem;
+    }
+
+    .no-words p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .no-words {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .no-words i {
+        font-size: 2rem;
+    }
+
+    .no-words p {
+        font-size: 0.9rem;
+    }
+}
+
+.letter-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--flashcard-color);
+    padding: 1rem 1.5rem;
+    background-color: #e0f2fe;
+    display: flex;
+    align-items: center;
+}
+
+.letter-heading::before {
+    content: '#';
+    margin-right: 0.5rem;
+    color: var(--flashcard-color);
+}
+
+/* ====== WORDS TABLE WRAPPER ====== */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ====== WORDS TABLE ====== */
+.words-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    width: 1000px; /* force scroll on small screen */
+}
+
+.words-table th,
+.words-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.words-table th {
+    
+    background-color: #f0f9ff;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.words-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.word-cell {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.meaning-cell,
+.sentence-cell {
+    color: var(--text-light-color);
+}
+
+.sentence-cell {
+    font-style: italic;
+}
+
+/* ====== QUIZ LAYOUT ====== */
+.quiz-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 992px) {
+    .quiz-layout {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+/* ====== QUIZ CONTROLS ====== */
+.quiz-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--card-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.control-group {
+    display: flex;
+    gap: 0.5rem;
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.control-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    background-color: transparent;
+    color: var(--text-light);
+}
+
+.control-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 2px 8px rgba(163, 120, 233, 0.4);
+}
+
+/* ====== QUESTION BOX ====== */
+.question-box {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-color);
+}
+
+/* ====== PROGRESS BAR ====== */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: var(--input-bg);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-hover) 0%, var(--accent-color) 100%);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+    .quiz-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-controls {
+        flex-direction: column;
+    }
+.words-table{
+    width: 1550px;
+}
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .date-input {
+        width: 93%;
+        margin: 0;
+    }
+
+    .search-btn {
+        width: 100%;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h1::after {
+        width: 70px;
+        height: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .vocabulary-container {
+        padding: 0.5rem;
+    }
+
+    h1 {
+        margin: 1.5rem 0;
+        font-size: 1.5rem;
+    }
+
+    .words-table td {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+  <%- include('../partial/nav_bar',{ currentPage: 'allWords' }) %>
+  
+  <div class="vocabulary-container">
+    <h1>Vocabulary Words A to Z</h1>
+
+    <% if (groupedWords.length === 0) { %>
+      <div class="no-words">
+        <i class="fas fa-book-open"></i>
+        <p>No vocabulary words found. Would you like to <a href="/add-word">add one</a>?</p>
+      </div>
+    <% } else { %>
+      <% groupedWords.forEach(group => { %>
+        <div class="letter-section">
+          <div class="letter-heading"><%= group.letter %></div>
+
+          <!-- ✅ Scroll wrapper added -->
+          <div class="table-responsive">
+            <table class="words-table">
+              <thead>
+                <tr>
+                  <th>Vocabulary</th>
+                  <th>Meaning</th>
+                  <th>Example Sentence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% group.words.forEach(word => { %>
+                  <tr>
+                    <td class="word-cell" data-label="Word"><%= word.word %></td>
+                    <td class="meaning-cell" data-label="Meaning"><%= word.meaning %></td>
+                    <td class="sentence-cell" data-label="Example"><%= word.sentence %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+          <!-- ✅ End Scroll wrapper -->
+
+        </div>
+      <% }) %>
+    <% } %>
+</div>
+</body>
+</html>

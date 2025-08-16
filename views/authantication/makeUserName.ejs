@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Password Matcher</title>
+    <style>
+:root {
+    --bg-color: #f5f5f5;
+    --card-color: #ffffff;
+    --text-color: #1a1a1a;
+    --accent-color: #a378e9;
+    --accent-hover: #a89eb6;
+    --input-bg: #eeeeee;
+    --border-color: #ccc;
+    --glow: 0 0 15px rgba(163, 120, 233, 0.7);
+    --error-color: #d93025;
+    --success-color: #1e8e3e;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+.profile-card {
+    background-color: var(--card-color);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+h1 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+}
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 15px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+input[type="password"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: var(--glow);
+}
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, var(--accent-color), var(--accent-hover));
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+.submit-btn:hover {
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+}
+#message {
+    text-align: center;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    height: 20px;
+    font-weight: 500;
+}
+#message.success {
+    color: var(--success-color);
+}
+#message.error {
+    color: var(--error-color);
+}
+@media (max-width: 768px) {
+    .profile-card { padding: 20px; }
+    h1 { font-size: 24px; }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <h1>Create Your Profile</h1>
+            <form id="profile-form" action="/Save-User-pass" method="POST">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <p id="message"></p>
+                <button type="submit" class="submit-btn">Create Password</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const messageElement = document.getElementById('message');
+        const profileForm = document.getElementById('profile-form');
+
+        function checkPasswords() {
+            const passwordValue = passwordInput.value;
+            const confirmPasswordValue = confirmPasswordInput.value;
+
+            if (confirmPasswordValue === '') {
+                messageElement.textContent = '';
+                return;
+            }
+            
+            if (passwordValue === confirmPasswordValue) {
+                messageElement.textContent = 'Match';
+                messageElement.className = 'success';
+            } else {
+                messageElement.textContent = 'No Match';
+                messageElement.className = 'error';
+            }
+        }
+
+        passwordInput.addEventListener('input', checkPasswords);
+        confirmPasswordInput.addEventListener('input', checkPasswords);
+        
+        
+    </script>
+</body>
+</html>

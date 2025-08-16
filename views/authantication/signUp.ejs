@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Login</title>
+    <link rel="stylesheet" href="/logins.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<style>
+    .error-msg {
+    color: red;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+</style>
+<body>
+    
+   <div class="login-container">
+    
+    <h2>Sign Up <i class="fas fa-book-reader"></i>
+        Vocabix</h2>
+    <% if (typeof error !== 'undefined') { %>
+        <p class="error-msg"><%= error %></p>
+    <% } %>
+    
+    <form action="/signup" method="POST">
+        <div class="input-group">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="input-group">
+            <label for="number">Phone number</label>
+            <input type="number" id="number" name="number" placeholder="Enter your number" required>
+        </div>
+        <button type="submit">Sign Up</button>
+        <div class="signup-link">
+            Already have an account? <a href="/login">Login</a>
+        </div>
+    </form>
+</div>
+
+</body>
+<script>
+  const input = document.getElementById('number');
+  const maxDigits = 10;  // Change this to how many digits you want to allow
+
+  input.addEventListener('input', () => {
+    let value = input.value.replace(/\D/g, ''); // Remove non-digit chars (just in case)
+    if (value.length > maxDigits) {
+      value = value.slice(0, maxDigits);
+    }
+    input.value = value;
+  });
+</script>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date-wise Vocabulary Filter</title>
+   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+ :root {
+    --primary: #673ab7;
+    --primary-light: #7e57c2;
+    --primary-dark: #512da8;
+    --text-dark: #2c3e50;
+    --text-medium: #555;
+    --text-light: #777;
+    --border: #e0e0e0;
+    --bg-light: #f5f5f5;
+    --card-color: #ffffff;
+    --input-bg: #f9f9f9;
+    --table-header: #ede7f6;
+    --table-even: #f9f9f9;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --error: #e74c3c;
+    --error-text: #e74c3c;
+    --accent-color: #7e57c2;
+    --accent-hover: #673ab7;
+    --transition: all 0.3s ease;
+}
+
+/* Quiz Page Layout */
+.quiz-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 992px) {
+    .quiz-layout {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+/* Quiz Controls */
+.quiz-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--card-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.control-group {
+    display: flex;
+    gap: 0.5rem;
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.control-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    background-color: transparent;
+    color: var(--text-light);
+}
+
+.control-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 2px 8px rgba(163, 120, 233, 0.4);
+}
+
+/* Question Box */
+.question-box {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    font-weight: 600;
+    border-left: 4px solid var(--accent-color);
+}
+
+/* Stats Panel */
+.stats-panel .stats-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--input-bg);
+    padding-bottom: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: 700;
+    background-color: var(--input-bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: var(--input-bg);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-hover) 0%, var(--accent-color) 100%);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+}
+
+/* Options */
+.option.correct {
+    background-color: #9ae5b6;
+    color: white;
+    border-color: #16a34a;
+}
+
+.option.wrong {
+    background-color: #e55e5e91;
+    color: white;
+    border-color: #b91c1c;
+}
+
+/* Summary */
+.summary-card {
+    display: none;
+    text-align: center;
+}
+
+.summary-card .icon {
+    font-size: 4rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+/* Mistakes */
+.mistakes-list {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.mistake-item {
+    background-color: var(--input-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid var(--error-text);
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* chhoti screen pe wrap ho jayega */
+}
+
+.date-input {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background:var( --primary-light); /* button color */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.vocabulary-container{
+    margin: 0 1rem;
+}
+.search-btn:hover {
+  background:var( --primary-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .date-input{
+    width: 93%;
+    margin: 0;
+  }
+  .search-btn {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .quiz-layout {
+        grid-template-columns: 1fr;
+    }
+    .quiz-controls {
+        flex-direction: column;
+    }
+}
+
+  </style>
+</head>
+<body>
+  <%- include('../partial/nav_bar', { currentPage: 'allWords' }) %>
+
+  <div class="vocabulary-container">
+    <div class="page-header">
+      <h1 class="page-title"><i class="fas fa-calendar-day"></i> Filter by Date</h1>
+    </div>
+
+    <div class="search-container">
+      <input type="date" id="vocabDate" class="date-input" aria-label="Select date to filter vocabulary"/>
+      <button class="search-btn" id="searchBtn">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </button>
+    </div>
+
+    <div id="resultsContainer" class="results-container"></div>
+  </div>
+
+  <script>
+    async function getVocabByDate(date) {
+      try {
+        const res = await fetch(`/words-on-date?date=${encodeURIComponent(date)}`);
+        if (!res.ok) throw new Error('Network response was not ok');
+
+        const words = await res.json();
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = '';
+
+        if (!Array.isArray(words) || words.length === 0) {
+          container.innerHTML = `
+            <div class="no-results">
+              <i class="fas fa-book"></i>
+              <p>No vocabulary found for selected date</p>
+            </div>`;
+          return;
+        }
+
+        const dateObj = new Date(date);
+        const dateStr = dateObj.toLocaleDateString(undefined, {
+          year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        const section = document.createElement('div');
+        section.className = 'date-section';
+
+        const heading = document.createElement('div');
+        heading.className = 'date-heading';
+        heading.innerHTML = `<i class="fas fa-calendar-check"></i> <span>Vocabulary for ${dateStr}</span>`;
+        section.appendChild(heading);
+
+        const table = document.createElement('table');
+        table.className = 'words-table';
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Vocabulary</th>
+              <th>Meaning</th>
+              <th>Example Sentence</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${words.map(word => `
+              <tr>
+                <td class="word-cell" data-label="Word">${word.word}</td>
+                <td class="meaning-cell" data-label="Meaning">${word.meaning}</td>
+                <td class="sentence-cell" data-label="Example">${word.sentence || '-'}</td>
+              </tr>
+            `).join('')}
+          </tbody>`;
+        section.appendChild(table);
+        container.appendChild(section);
+
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('resultsContainer').innerHTML = `
+          <div class="no-results">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading vocabulary. Please try again.</p>
+          </div>`;
+      }
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const date = document.getElementById('vocabDate').value;
+      if (!date) {
+        alert('Please select a date');
+        return;
+      }
+      getVocabByDate(date);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('vocabDate').value = today;
+    });
+  </script>
+</body>
+</html>

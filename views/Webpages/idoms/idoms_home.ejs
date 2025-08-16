@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idioms Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --new-word-color: #10b981;
+            --mcq-color: #f59e0b;
+            --allvocab-color: #0bf5d2;
+            --background-color: #f8fafc;
+            --card-color: #ffffff;
+            --text-color: #1e293b;
+            --text-light-color: #64748b;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light-color);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        a.option-card {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .option-card {
+            background: var(--card-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .mcq-card { 
+            border: 1.5px solid var(--mcq-color);
+            border-top: 4px solid var(--mcq-color); 
+        }
+        .mcq-card:hover { box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2); }
+
+        .new-word-card {  border: 1.5px solid var(--new-word-color);
+            border-top: 4px solid var(--new-word-color);
+        margin-bottom: 1rem; }
+        .new-word-card:hover { box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2); }
+
+        .allvocab-card { border-top: 4px solid var(--allvocab-color); }
+        .allvocab-card:hover { box-shadow: 0 10px 15px -3px rgba(11, 245, 210, 0.2); }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mcq-card .icon { color: var(--mcq-color); }
+        .new-word-card .icon { color: var(--new-word-color); }
+        .allvocab-card .icon { color: var(--allvocab-color); }
+
+        .option-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .option-desc {
+            color: var(--text-light-color);
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 1rem;
+            margin-top: auto;
+        }
+
+        .mcq-card .btn { background-color: var(--mcq-color); }
+        .mcq-card .btn:hover { background-color: #d97706; }
+
+        .new-word-card .btn { background-color: var(--new-word-color); }
+        .new-word-card .btn:hover { background-color: #0d9f6e; }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                color: var(--text-color);
+            }
+            h1::after {
+                content: '';
+                display: block;
+                width: 70px;
+                height: 4px;
+                background: var(--accent-color);
+                border-radius: 2px;
+                margin: 0.75rem auto 0;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partial/nav_bar',{ currentPage: 'idioms' }) %>
+
+    <div class="dashboard">
+        <header>
+            <h1>Idioms & Phrases</h1>
+            
+        </header>
+
+        <div class="options-grid">
+
+            <a href="/idioms-on-date" class="option-card mcq-card">
+                <div class="icon"><i class="fas fa-calendar-day" title="Day-wise Idioms"></i></div>
+                <h2 class="option-title">Day Wise Idiom or Phrase</h2>
+                <p class="option-desc">Practice idioms based on the day they were added and challenge yourself with quizzes.</p>
+                <span class="btn"><i class="fas fa-list-ol"></i> Take Quiz</span>
+            </a>
+
+            <a href="/all_idoms" class="option-card new-word-card">
+                <div class="icon"><i class="fas fa-book-open" title="All Idioms"></i></div>
+                <h2 class="option-title">A-Z All Idiom or Phrase's</h2>
+                <p class="option-desc">Browse through a complete list of idioms and phrases, from A to Z, for comprehensive learning.</p>
+                <span class="btn"><i class="fas fa-plus"></i> Get Started</span>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>

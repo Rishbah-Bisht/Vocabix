@@ -1,0 +1,330 @@
+/* Universal Styles & Color Theme */
+:root {
+    --bg-color: #f5f5f5;
+    --card-color: #ffffff;
+    --text-color: #1a1a1a;
+    --text-light: #666;
+    --accent-color: #a378e9;
+    --accent-hover: #cdb1f4;
+    --input-bg: #eeeeee;
+    --th-bg: #aa89df;
+    --border-color: #cccccc;
+    --glow: 0 0 8px rgba(163, 120, 233, 0.3);
+    --success-bg: #d4edda;
+    --success-text: #155724;
+    --error-bg: #f8d7da;
+    --error-text: #721c24;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+}
+
+/* General Body & Layout */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0;
+}
+
+.page-title {
+    text-align: center;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.page-title::after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    margin: 0.75rem auto 0;
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-color);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* Form Styles */
+.form-container {
+    max-width: 550px;
+    margin: 2rem auto;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3.5rem;
+    box-sizing: border-box;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+textarea.form-input {
+    min-height: 120px;
+    resize: vertical;
+    padding-top: 1rem;
+}
+
+.form-input:focus {
+    border-color: var(--accent-color);
+    background-color: var(--card-color);
+    outline: none;
+    box-shadow: var(--glow);
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.form-input:focus ~ .input-icon {
+    color: var(--accent-color);
+}
+
+.form-label {
+    position: absolute;
+    left: 3.5rem;
+    top: 1rem;
+    color: var(--text-light);
+    pointer-events: none;
+    transition: var(--transition);
+    background: var(--input-bg);
+    padding: 0 0.5rem;
+}
+
+.form-input:focus ~ .form-label,
+.form-input:not(:placeholder-shown) ~ .form-label {
+    transform: translateY(-1.75rem) scale(0.85);
+    color: var(--accent-color);
+    background: var(--card-color);
+    left: 3rem;
+}
+
+.submit-btn, .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.submit-btn:hover, .btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(163, 120, 233, 0.4);
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+    background: var(--card-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.responsive-table th {
+    background-color: var(--th-bg);
+    color: white;
+    font-weight: 600;
+}
+
+.responsive-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.responsive-table tr:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Home Page Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.option-card {
+    background: var(--card-color);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+    border-top: 4px solid;
+    cursor: pointer;
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.option-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.option-card .option-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+/* MCQ Quiz Styles */
+.quiz-container {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.word-display {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.options-container {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    cursor: pointer;
+    background-color: var(--card-color);
+}
+
+.option:hover {
+    border-color: var(--accent-color);
+    box-shadow: var(--glow);
+}
+
+.option.correct-option {
+    background-color: #d4edda;
+    border-color: #155724;
+}
+
+.option.wrong-option {
+    background-color: #f8d7da;
+    border-color: #721c24;
+}
+
+/* Message & Feedback Styles */
+.success-message, .error-message, .no-results {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.success-message {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+}
+
+.error-message, .no-results {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .responsive-table {
+        display: block;
+        width: 100%;
+    }
+    .responsive-table thead, .responsive-table tbody, .responsive-table tr {
+        display: block;
+    }
+    .responsive-table thead {
+        display: none; /* Hide table headers */
+    }
+    .responsive-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    .responsive-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px dashed #e0e0e0;
+    }
+    .responsive-table td:last-child {
+        border-bottom: 0;
+    }
+    .responsive-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--accent-color);
+        margin-right: 1rem;
+    }
+}

@@ -1,0 +1,245 @@
+<style>
+    /* Navbar styles now using the main theme variables */
+    .navbar {
+        background-color: var(--card-color);
+        /* Changed from dark to white */
+        padding: 0 2rem;
+        display: flex;
+     font-family: 'Grand Hotel', cursive;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        /* Added border for light theme */
+        box-shadow: var(--shadow);
+    }
+
+    .nav-brand {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .nav-brand i {
+        transition: transform 0.3s ease;
+    }
+
+    .nav-brand:hover i {
+        transform: rotate(15deg) scale(1.1);
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links li {
+        width: 90%;
+        text-align: center;
+        margin: 0 auto;
+
+    }
+
+    .nav-links a {
+        display: block;
+        text-decoration: none;
+        text-align: left;
+        color: var(--text-light);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        
+        position: relative;
+        width: 85%;
+        transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background-color: var(--accent-color);
+        border-radius: 2px;
+        transition: width 0.4s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--accent-color);
+        /* Changed from white to accent color */
+    }
+
+    .nav-links a.active {
+        font-weight: 700;
+        background-color: var(--th-bg);
+        /* Accent background */
+        color: white;
+        /* Text color for contrast */
+        border: 2px solid var(--accent-color);
+        /* Border in accent color */
+        border-radius: 6px;
+        /* Slightly rounded corners */
+
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .nav-toggle {
+        display: none;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        /* Changed from white to main text color */
+        cursor: pointer;
+        z-index: 1001;
+    }
+.profile {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--card-color);
+    text-align: center;
+    line-height: 50px;
+    transition: all 0.3s ease;
+}
+
+.profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile:hover {
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .profile {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+    }
+}
+
+    @media (max-width: 768px) {
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            /* Start off-screen */
+            width: 65%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--card-color);
+            /* Changed from dark to white */
+            flex-direction: column;
+            justify-content: center;
+            align-items:first baseline;
+            gap: 1rem;
+            text-align: left;
+            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            border-left: 1px solid var(--border-color);
+        }
+
+        .nav-links.active {
+            right: 0;
+            /* Slide in */
+        }
+
+        .nav-toggle {
+            display: block;
+        }
+    }
+</style>
+
+<nav class="navbar">
+    <a href="/profile" class="profile">
+    <img src="/uploads/Profile/Profile.png" alt="Profile">
+</a>
+
+    <a href="/home" class="nav-brand">
+        <i class="fas fa-book-reader"></i>
+        <span>Vocabix</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+   <ul class="nav-links" id="navLinks">
+    <li><a href="/home" class="<%= currentPage === 'home' ? 'active' : '' %>">
+        <i class="fas fa-home"></i> Home
+    </a></li>
+
+    <li><a href="/squares" class="<%= currentPage === 'squars' ? 'active' : '' %>">
+        <i class="fas fa-cube"></i> Squares and Cubes
+    </a></li>
+
+    <li><a href="/vocabs" class="<%= currentPage === 'allWords' ? 'active' : '' %>">
+        <i class="fas fa-book"></i> Vocabulary
+    </a></li>
+
+    <li><a href="/idioms" class="<%= currentPage === 'idioms' ? 'active' : '' %>">
+        <i class="fas fa-book-reader"></i> Idioms
+    </a></li>
+
+    <li><a href="/add-word" class="<%= currentPage === 'addWord' ? 'active' : '' %>">
+        <i class="fas fa-plus-circle"></i> Add Word
+    </a></li>
+
+    <li><a href="/add-idiom" class="<%= currentPage === 'addidiom' ? 'active' : '' %>">
+        <i class="fas fa-plus-square"></i> Add Idiom
+    </a></li>
+
+    <li><a href="/mcq-idioms" class="<%= currentPage === 'idiomsMCQ' ? 'active' : '' %>">
+        <i class="fas fa-question-circle"></i> MCQ Idiom
+    </a></li>
+
+    <li><a href="/mcq-vocab" class="<%= currentPage === 'mcq-vocab' ? 'active' : '' %>">
+        <i class="fas fa-question"></i> MCQ Vocab
+    </a></li>
+    <li><a href="/logout" class="<%= currentPage === 'mcq-vocab' ? 'active' : '' %>">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a></li>
+</ul>
+
+</nav>
+
+<script>
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navToggleIcon = navToggle.querySelector('i');
+
+    navToggle.addEventListener('click', () => {
+        const isActive = navLinks.classList.toggle('active');
+        // Change icon based on state
+        if (isActive) {
+            navToggleIcon.classList.remove('fa-bars');
+            navToggleIcon.classList.add('fa-times');
+        } else {
+            navToggleIcon.classList.remove('fa-times');
+            navToggleIcon.classList.add('fa-bars');
+        }
+    });
+</script>

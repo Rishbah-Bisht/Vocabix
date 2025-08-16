@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Dashboard</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --accent-color: #7e57c2;
+    --amber: #f59e0b;
+    --emerald: #10b981;
+    --blue: #3b82f6;
+    --violet: #8b5cf6;
+    --red: #ef4444;
+    --card-bg: #ffffff;
+    --text-dark: #1f2937;
+    --text-light: #4b5563;
+    --shadow: 0 4px 25px rgba(0,0,0,0.05);
+    --transition: all 0.3s ease;
+}
+
+/* General page */
+body {
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+/* Page title */
+.page-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.page-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent-color);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+/* Options grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Option cards */
+.option-card {
+    background: var(--card-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+/* Icons */
+.option-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+/* Card titles */
+.option-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Buttons with different colors */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    transition: var(--transition);
+}
+
+/* Individual button colors */
+.squares-btn { background-color: var(--amber); }
+.squares-btn:hover { background-color: #d97706; }
+
+.idioms-btn { background-color: var(--emerald); }
+.idioms-btn:hover { background-color: #059669; }
+
+.vocab-btn { background-color: var(--blue); }
+.vocab-btn:hover { background-color: #2563eb; }
+
+.idioms-quiz-btn { background-color: var(--violet); }
+.idioms-quiz-btn:hover { background-color: #7c3aed; }
+
+.vocab-quiz-btn { background-color: var(--red); }
+.vocab-quiz-btn:hover { background-color: #dc2626; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+</style>
+</head>
+<body>
+<%- include('../partial/nav_bar',{ currentPage: 'home' }) %>
+
+<div class="container">
+    <header>
+        <h1 class="page-title">Learning Dashboard</h1>
+    </header>
+
+    <div class="options-grid">
+        <!-- Squares & Cubes Quiz Card -->
+        <div class="option-card" onclick="window.location.href='/squares'">
+            <div class="icon"><i class="fas fa-cube"></i></div>
+            <h2 class="option-title">Squares & Cubes Quiz</h2>
+            <a href="/squares" class="btn squares-btn"><i class="fas fa-list-ol"></i> Take Quiz</a>
+        </div>
+
+        <!-- Idiom & Phrase Card -->
+        <div class="option-card" onclick="window.location.href='/idioms'">
+            <div class="icon"><i class="fas fa-quote-left"></i></div>
+            <h2 class="option-title">Idiom & Phrase</h2>
+            <a href="/idioms" class="btn idioms-btn"><i class="fas fa-book-open"></i> Revise</a>
+        </div>
+
+        <!-- Vocabulary Card -->
+        <div class="option-card" onclick="window.location.href='/vocabs'">
+            <div class="icon"><i class="fas fa-book"></i></div>
+            <h2 class="option-title">Vocabulary</h2>
+            <a href="/vocabs" class="btn vocab-btn"><i class="fas fa-list-ul"></i> Revise</a>
+        </div>
+
+        <!-- Idioms & Phrase Quiz Card -->
+        <div class="option-card" onclick="window.location.href='/mcq-idioms'">
+            <div class="icon"><i class="fas fa-language"></i></div>
+            <h2 class="option-title">Idioms & Phrase Quiz</h2>
+            <a href="/mcq-idioms" class="btn idioms-quiz-btn"><i class="fas fa-play"></i> Start Practicing</a>
+        </div>
+
+        <!-- Vocab Quiz Card -->
+        <div class="option-card" onclick="window.location.href='/mcq-vocab'">
+            <div class="icon"><i class="fas fa-question-circle"></i></div>
+            <h2 class="option-title">Vocab Quiz</h2>
+            <a href="/mcq-vocab" class="btn vocab-quiz-btn"><i class="fas fa-list-ol"></i> Take Quiz</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
