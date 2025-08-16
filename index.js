@@ -41,6 +41,7 @@ app.use(session({
 
 // ------------------ STATIC FILES ------------------
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public/css")));
 app.use('/uploads', express.static('uploads'));  
 
 // ------------------ VIEW ENGINE ------------------
