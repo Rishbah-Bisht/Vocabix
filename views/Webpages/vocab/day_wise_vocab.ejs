@@ -7,7 +7,8 @@
    <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
- :root {
+/* ===== Global Theme Variables & Setup ===== */
+:root {
     --primary: #673ab7;
     --primary-light: #7e57c2;
     --primary-dark: #512da8;
@@ -28,7 +29,179 @@
     --transition: all 0.3s ease;
 }
 
-/* Quiz Page Layout */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ===== Main Page Layout & Header ===== */
+.vocabulary-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    color: var(--primary-dark);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* ===== Search Controls ===== */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: var(--card-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.date-input {
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    flex: 1;
+    min-width: 200px;
+    background-color: var(--input-bg);
+}
+
+.search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* ===== Results Display ===== */
+.results-container {
+    margin-top: 2rem;
+}
+
+.date-section {
+    background-color: var(--card-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.date-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    background-color: var(--table-header);
+    border-bottom: 1px solid var(--border);
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-top: 2rem;
+    background-color: var(--card-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    color: var(--text-light);
+}
+
+.no-results i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary-light);
+}
+
+.no-results p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* ===== Desktop Table Styling ===== */
+.words-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.words-table th,
+.words-table td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.words-table thead tr {
+    background-color: var(--table-header);
+}
+
+.words-table th {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.words-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.words-table tbody tr:nth-child(even) {
+    background-color: var(--table-even);
+}
+
+.words-table tbody tr:hover {
+    background-color: var(--table-header);
+}
+
+.words-table td.word-cell {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+.words-table td.meaning-cell {
+    color: var(--text-medium);
+}
+
+.words-table td.sentence-cell {
+    color: var(--text-light);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+
+/* ===== QUIZ-SPECIFIC STYLES (Included from your code) ===== */
 .quiz-layout {
     display: grid;
     grid-template-columns: 1fr;
@@ -36,13 +209,6 @@
     margin-top: 2rem;
 }
 
-@media (min-width: 992px) {
-    .quiz-layout {
-        grid-template-columns: 3fr 1fr;
-    }
-}
-
-/* Quiz Controls */
 .quiz-controls {
     display: flex;
     flex-wrap: wrap;
@@ -82,7 +248,6 @@
     box-shadow: 0 2px 8px rgba(163, 120, 233, 0.4);
 }
 
-/* Question Box */
 .question-box {
     font-size: 1.5rem;
     text-align: center;
@@ -94,7 +259,6 @@
     border-left: 4px solid var(--accent-color);
 }
 
-/* Stats Panel */
 .stats-panel .stats-title {
     font-size: 1.2rem;
     font-weight: 600;
@@ -119,7 +283,6 @@
     border-radius: 6px;
 }
 
-/* Progress Bar */
 .progress-bar {
     width: 100%;
     height: 10px;
@@ -136,7 +299,6 @@
     transition: width 0.4s ease;
 }
 
-/* Options */
 .option.correct {
     background-color: #9ae5b6;
     color: white;
@@ -149,7 +311,6 @@
     border-color: #b91c1c;
 }
 
-/* Summary */
 .summary-card {
     display: none;
     text-align: center;
@@ -161,7 +322,6 @@
     margin-bottom: 1rem;
 }
 
-/* Mistakes */
 .mistakes-list {
     list-style-type: none;
     padding: 0;
@@ -175,66 +335,92 @@
     margin-bottom: 0.5rem;
     border-left: 4px solid var(--error-text);
 }
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap; /* chhoti screen pe wrap ho jayega */
-}
 
-.date-input {
-  padding: 8px 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  flex: 1;
-  min-width: 150px;
-}
 
-.search-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background:var( --primary-light); /* button color */
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-.vocabulary-container{
-    margin: 0 1rem;
-}
-.search-btn:hover {
-  background:var( --primary-dark);
-}
+/* ===== RESPONSIVE DESIGN ===== */
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .search-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .date-input{
-    width: 93%;
-    margin: 0;
-  }
-  .search-btn {
-    width: 100%;
-    margin: 0;
-  }
-}
-
-/* Responsive */
+/* Responsive Card View for Mobile Table */
 @media (max-width: 768px) {
+    .words-table thead {
+        display: none;
+    }
+
+    .words-table,
+    .words-table tbody,
+    .words-table tr,
+    .words-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .date-section {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+    .words-table tr {
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        background-color: var(--card-color);
+        padding: 1rem;
+    }
+
+    .words-table td {
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+    
+    .words-table td:last-child {
+        margin-bottom: 0;
+    }
+
+    .words-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: 700;
+        color: var(--primary-dark);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+    }
+    
+    .words-table td.word-cell {
+        font-size: 1.2rem;
+    }
+
+    /* Quiz Layout on Mobile */
     .quiz-layout {
         grid-template-columns: 1fr;
     }
     .quiz-controls {
         flex-direction: column;
+    }
+}
+
+/* Larger Desktop Quiz Layout */
+@media (min-width: 992px) {
+    .quiz-layout {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+
+/* Small Screen Search Controls */
+@media (max-width: 600px) {
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .date-input, .search-btn {
+        width: 100%;
+        margin: 0;
     }
 }
 

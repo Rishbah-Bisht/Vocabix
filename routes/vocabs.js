@@ -15,6 +15,32 @@ router.get("/day-wise-vocab", ensureAuth, async (req, res) => {
   res.render("day_wise_vocab.ejs", { user });
 });
 
+router.get('/words-on-date', async (req, res) => {
+  try {
+    const { date } = req.query;
+    if (!date) {
+      return res.status(400).json({ message: 'Date is required' });
+    }
+
+    // Convert string to start and end of day for querying
+    const start = new Date(date);
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date(date);
+    end.setHours(23, 59, 59, 999);
+
+    // Find words added on that date
+    const words = await Word.find({
+      date: { $gte: start, $lte: end }
+    }).select('word meaning sentence -_id'); // exclude _id if you want
+
+    res.json(words);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 router.get("/all-vocabs", ensureAuth, async (req, res) => {
   const user = await User.findById(req.session.userId);
   const words = await Word.find({}).sort({ word: 1 });
