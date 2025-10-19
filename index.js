@@ -54,6 +54,7 @@ app.set("views", [
     path.join(__dirname, "views/Webpages/square_cube"),
     path.join(__dirname, "views/Webpages/idoms"),
     path.join(__dirname, "views/Webpages/vocab"),
+    path.join(__dirname, "views/Webpages/percentage"),
 ]);
 
 // ------------------ FLASH ------------------

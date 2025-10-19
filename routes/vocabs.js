@@ -57,6 +57,8 @@ router.get("/all-vocabs", ensureAuth, async (req, res) => {
   res.render('A_to_Z_vocab', { groupedWords, user });
 });
 
+
+
 router.get("/add-word", ensureAuth, async (req, res) => {
   const user = await User.findById(req.session.userId);
   res.render("add_vocab.ejs", { user });
@@ -123,5 +125,12 @@ router.post('/add-word', ensureAuth, async (req, res) => {
     res.status(500).send('Error adding word');
   }
 });
+
+
+router.get("/percentage", ensureAuth, async (req, res) => {
+  
+  res.render("percentage.ejs");
+});
+
 
 module.exports = router;

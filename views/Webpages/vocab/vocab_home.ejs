@@ -8,157 +8,165 @@
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --new-word-color: #10b981;
-            --flashcard-color: #3b82f6;
-            --mcq-color: #f59e0b;
-            --allvocab-color: #0bf5d2;
-            --background-color: #f8fafc;
-            --card-color: #ffffff;
-            --text-color: #1e293b;
-            --text-light-color: #64748b;
-        }
+:root {
+    --new-word-color: #10b981;     /* Green */
+    --flashcard-color: #3b82f6;    /* Blue */
+    --mcq-color: #f59e0b;          /* Amber */
+    --allvocab-color: #0bf5d2;     /* Cyan */
+    --daywise-color: #ef4444;      /* Red */
 
-      
+    --background-color: #f8fafc;
+    --card-color: #ffffff;
+    --text-color: #1e293b;
+    --text-light-color: #64748b;
+}
 
-        .dashboard {
-            width: 100%;
-            max-width: 1200px; /* Ek max width set karna accha rehta hai */
-            margin: 0 auto;
-        }
+/* General structure */
+body {
+    background-color: var(--background-color);
+    font-family: 'Poppins', sans-serif;
+}
+.dashboard {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
 
-        h1 {
-            font-size: 2.5rem;
-            color: #2563eb;
-            margin-bottom: 0.5rem;
-        }
+h1 {
+    font-size: 2.5rem;
+    color: #2563eb;
+    margin-bottom: 0.5rem;
+}
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-light-color);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-light-color);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
 
-        .options-grid {
-            display: grid;
-            /* YEH SABSE IMPORTANT CHANGE HAI RESPONSIVENESS KE LIYE */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        /* Card ko <a> tag banane ke liye styles */
-        a.option-card {
-            text-decoration: none; /* Link ka underline hatane ke liye */
-            color: inherit; /* Text color normal rakhne ke liye */
-        }
+/* Grid layout */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
 
-        .option-card {
-            background: var(--card-color);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 0 1rem;
-            display: flex;
-            flex-direction: column; /* Content ko upar se neeche align karne ke liye */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-        }
+/* Card styling */
+a.option-card {
+    text-decoration: none;
+    color: inherit;
+}
 
-        .option-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
+.option-card {
+    background: var(--card-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+}
 
-        /* Card-specific border and hover shadows */
-       .mcq-card { 
-            border: 1.5px solid var(--mcq-color);
-            border-top: 4px solid var(--mcq-color); 
-        }
-        .mcq-card:hover { box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2); }
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
 
-        .new-word-card {  border: 1.5px solid var(--new-word-color);
-            border-top: 4px solid var(--new-word-color);
-        margin-bottom: 1rem; }
-        .new-word-card:hover { box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2); }
-        
-        .flashcard-card { border-top: 4px solid var(--flashcard-color); }
-        .flashcard-card:hover { box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2); }
+/* Unique card colors */
+.daywise-card {
+    border: 1.5px solid var(--daywise-color);
+    border-top: 4px solid var(--daywise-color);
+   background: #ffffff;
+}
+.daywise-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.2);
+}
+.daywise-card .icon { color: var(--daywise-color); }
+.daywise-card .btn { background-color: var(--daywise-color); }
+.daywise-card .btn:hover { background-color: #dc2626; }
 
-        .allvocab-card { border-top: 4px solid var(--allvocab-color); }
-        .allvocab-card:hover { box-shadow: 0 10px 15px -3px rgba(11, 245, 210, 0.2); }
+.allvocab-card {
+    border: 1.5px solid var(--allvocab-color);
+    border-top: 4px solid var(--allvocab-color);
+    background: #ffffff;
+}
+.allvocab-card:hover { box-shadow: 0 10px 15px -3px rgba(11, 245, 210, 0.2); }
+.allvocab-card .icon { color: var(--allvocab-color); }
+.allvocab-card .btn { background-color: var(--allvocab-color); }
+.allvocab-card .btn:hover { background-color: #0bd5b8; }
 
-        .icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .mcq-card .icon { color: var(--mcq-color); }
-        .new-word-card .icon { color: var(--new-word-color); }
-        .flashcard-card .icon { color: var(--flashcard-color); }
-        .allvocab-card .icon { color: var(--allvocab-color); }
+.new-word-card {
+    border: 1.5px solid var(--new-word-color);
+    border-top: 4px solid var(--new-word-color);
+   background: #ffffff;
+}
+.new-word-card:hover { box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2); }
+.new-word-card .icon { color: var(--new-word-color); }
+.new-word-card .btn { background-color: var(--new-word-color); }
+.new-word-card .btn:hover { background-color: #0d9f6e; }
 
-        .option-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
+.mcq-card {
+    border: 1.5px solid var(--mcq-color);
+    border-top: 4px solid var(--mcq-color);
+    background: #ffffff;
+}
+.mcq-card:hover { box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2); }
+.mcq-card .icon { color: var(--mcq-color); }
+.mcq-card .btn { background-color: var(--mcq-color); }
+.mcq-card .btn:hover { background-color: #d97706; }
 
-        .option-desc {
-            color: var(--text-light-color);
-            line-height: 1.6;
-            flex-grow: 1; /* Yeh description ko space dega */
-            margin-bottom: 1.5rem;
-        }
+/* Typography */
+.icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
 
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: auto; /* Button ko hamesha neeche rakhega */
-        }
-        
-        .mcq-card .btn { background-color: var(--mcq-color); }
-        .mcq-card .btn:hover { background-color: #d97706; }
+.option-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
 
-        .new-word-card .btn { background-color: var(--new-word-color); }
-        .new-word-card .btn:hover { background-color: #0d9f6e; }
+.option-desc {
+    color: var(--text-light-color);
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
 
-        /* Responsive font size for smaller screens */
-    @media (max-width: 768px) {
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: auto;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
     h1 {
         font-size: 2rem;
-            color: var(--text-color);
-    }
-
-    h1::after {
-        content: '';
-        display: block;
-        width: 70px;
-        height: 4px;
-        background: var(--accent-color);
-        border-radius: 2px;
-        margin: 0.75rem auto 0;
+        color: var(--text-color);
     }
 
     .subtitle {
         font-size: 1rem;
     }
 }
-
-    </style>
+</style>
 </head>
 
 <body>
@@ -167,28 +175,40 @@
 
     <div class="dashboard">
         <header>
-            <h1>Vocabulary </h1>
-            </header>
+           <h1>Vocabulary</h1>
+        </header>
 
         <div class="options-grid">
-            
-            <a href="/day-wise-vocab" class="option-card mcq-card">
-                <div class="icon"><i class="fas fa-calendar-day" title="Day-wise Vocabulary"></i></div>
+
+            <a href="/day-wise-vocab" class="option-card daywise-card">
+                <div class="icon"><i class="fas fa-calendar-day"></i></div>
                 <h2 class="option-title">Day Wise Vocabulary</h2>
-                <p class="option-desc">Review words organized by the day they were added and test your knowledge.</p>
+               
                 <span class="btn"><i class="fas fa-list-ol"></i> Take Quiz</span>
             </a>
 
-            <a href="/all-vocabs" class="option-card new-word-card">
-                <div class="icon"><i class="fas fa-book-open" title="All Vocabulary"></i></div>
-                <h2 class="option-title">A-Z All Vocabulary</h2>
-                <p class="option-desc">Explore your entire word collection in one place. Search and filter your vocabulary.</p>
+            <a href="/all-vocabs" class="option-card allvocab-card">
+                <div class="icon"><i class="fas fa-book-open"></i></div>
+                <h2 class="option-title">A–Z All Vocabulary</h2>
+      
                 <span class="btn"><i class="fas fa-search"></i> Explore Now</span>
             </a>
 
+            <a href="/add-word" class="option-card new-word-card">
+                <div class="icon"><i class="fas fa-plus-circle"></i></div>
+                <h2 class="option-title">Add New Word</h2>
           
+                <span class="btn"><i class="fas fa-plus"></i> Add Word</span>
+            </a>
+
+            <a href="/mcq-vocab" class="option-card mcq-card">
+                <div class="icon"><i class="fas fa-question-circle"></i></div>
+                <h2 class="option-title">MCQ Vocabulary Quiz</h2>
+       
+                <span class="btn"><i class="fas fa-play-circle"></i> Start Quiz</span>
+            </a>
+
         </div>
     </div>
 </body>
-
 </html>
