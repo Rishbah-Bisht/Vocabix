@@ -1,193 +1,216 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../partial/html_header') %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idioms Dashboard</title>
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <title>VocabiX - All Idioms and Phrase</title>
+  <link rel="stylesheet" href="/home_page.css">
+  <link rel="stylesheet" href="/nav_bar.css">
+  </head>
   <style>
-    :root {
-      --primary: #673ab7;
-      --primary-light: #7e57c2;
-      --primary-dark: #512da8;
-      --text-dark: #333;
-      --text-light-color: #64748b;
-      --border: #e0e0e0;
-      --bg-light: #f5f5f5;
-      --card-color: #ffffff;
-      --table-header: #f0f9ff;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      --flashcard-color: #000000;
-      --transition: all 0.3s ease;
-    }
+/* Container */
+.idioms-container {
+  padding: 2rem;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
 
-    /* ====== PAGE CONTAINER ====== */
-    .idioms-container {
-      width: 95%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
+/* Section Letter Heading */
+.letter-heading {
+  font-size: 2rem;
+  margin: 1rem 0;
+  font-weight: 700;
+  color: var(--color-primary);
+}
 
-    /* ====== PAGE TITLE ====== */
-    .page-title {
-      text-align: center;
-      color: var(--text-dark);
-      margin: 2rem 0;
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: bold;
-      position: relative;
-    }
+/* Page Title */
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
 
-    .page-title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 3px;
-      background: var(--flashcard-color);
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
-    }
+/* Table Container */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  background: var(--color-white);
+}
 
-    /* ====== NO IDIOMS BOX ====== */
-    .no-idioms {
-      text-align: center;
-      padding: 2rem;
-      background: var(--card-color);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      max-width: 500px;
-      margin: 2rem auto;
-      box-shadow: var(--shadow);
-    }
+/* Table Base */
+.idioms-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  font-size: 0.95rem;
+}
 
-    .no-idioms i {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
+/* Table Cells */
+.idioms-table th,
+.idioms-table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-gray-200);
+  vertical-align: middle;
+  line-height: 1.5;
+  word-wrap: break-word;
+  min-height: 60px; /* ensures consistent row height */
+}
 
-    .no-idioms p {
-      font-size: 1.1rem;
-      color: var(--text-light-color);
-      margin: 0;
-    }
+/* Header Row */
+.idioms-table th {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-    .no-idioms a {
-      color: #10b981;
-      font-weight: 600;
-      text-decoration: none;
-    }
+/* Table Body */
+.idioms-table td {
+  color: var(--color-gray-800);
+  vertical-align: middle;
 
-    .no-idioms a:hover {
-      text-decoration: underline;
-    }
+}
 
-    /* ====== TABLE WRAPPER ====== */
-    .table-responsive {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-top: 1.5rem;
-    }
+/* Zebra Striping */
+.idioms-table tr:nth-child(even) td {
+      background-color: #e0e7ff;
 
-    /* ====== IDIOMS TABLE ====== */
-    .idioms-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--card-color);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      min-width: 900px; /* keeps structure intact */
-    }
+}
 
-    .idioms-table th,
-    .idioms-table td {
-      padding: 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      white-space: normal;
-    }
 
-    .idioms-table th {
-      background: var(--table-header);
-      color: var(--text-dark);
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-    }
 
-    .idioms-table tr:nth-child(even) {
-      background: #f9f9f9;
-    }
+/* No Idioms Found */
+.no-idioms {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
 
-    .idioms-table td {
-      color: var(--text-light-color);
-    }
+.no-idioms i {
+  font-size: 3rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  display: block;
+}
 
-    .idioms-table td:first-child {
-      font-weight: bold;
-      color: var(--text-dark);
-    }
+.no-idioms a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
 
-    /* ====== RESPONSIVE ====== */
-    @media (max-width: 768px) {
-      .idioms-table {
-        min-width: 750px;
-      }
+.no-idioms a:hover {
+  text-decoration: underline;
+}
 
-      .idioms-container {
-        padding: 0.5rem;
-      }
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  .idioms-table thead {
+    display: none;
+  }
 
-      .idioms-table td {
-        font-size: 0.95rem;
-      }
-    }
+  .idioms-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 10px;
+    padding: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  .idioms-table td {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border: none;
+    min-height: auto; /* allow variable height on mobile */
+    white-space: normal;
+  }
+
+  .idioms-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: 0.3rem;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+}
+
   </style>
-</head>
 
-<body>
-  <%- include('../partial/nav_bar',{ currentPage: 'idioms' }) %>
+  <body>
+    <!-- Mobile Menu Button -->
 
-  <div class="idioms-container">
-    <h1 class="page-title">All Idioms</h1>
 
-    <% if (idioms.length === 0) { %>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <%- include('../partial/nav_bar', { currentPage: 'Phrases' }) %>
+        <!-- Main Content -->
+        <main class="main-content">
+
+          <%- include('../partial/header_nav_bar') %>
+
+<div class="idioms-container">
+  <h1 class="page-title">All Idioms</h1>
+
+  <% if (groupedIdioms.length === 0) { %>
     <div class="no-idioms">
       <i class="fas fa-book-open"></i>
       <p>No idioms found. Would you like to <a href="/add-idiom">add one</a>?</p>
     </div>
-    <% } else { %>
-    <div class="table-responsive">
-      <table class="idioms-table">
-        <thead>
-          <tr>
-            <th>Idiom</th>
-            <th>Meaning</th>
-            <th>Example</th>
-            <th>Date Added</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% idioms.forEach(idiom => { %>
-          <tr>
-            <td data-label="Idiom"><%= idiom.idiom %></td>
-            <td data-label="Meaning"><%= idiom.meaning %></td>
-            <td data-label="Example"><%= idiom.example %></td>
-            <td data-label="Date"><%= idiom.date.toLocaleDateString('en-US', {
-              year: 'numeric', month: 'short', day: 'numeric'
-            }) %></td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
+  <% } else { %>
+    <% groupedIdioms.forEach(group => { %>
+      <div class="letter-section">
+        <div class="letter-heading"><%= group.letter %></div>
+
+        <div class="table-responsive">
+          <table class="idioms-table">
+            <thead>
+              <tr>
+                <th>Idiom</th>
+                <th>Meaning</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% group.idioms.forEach(idiom => { %>
+                <tr>
+                  <td data-label="Idiom"><%= idiom.idiom %></td>
+                  <td data-label="Meaning"><%= idiom.meaning %></td>
+                  <td data-label="Example"><%= idiom.example %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+
+        </main>
     </div>
-    <% } %>
-  </div>
-</body>
-</html>
+
+
+    <script src="/nav_bar.js"></script>
+  </body>
+
+  </html>

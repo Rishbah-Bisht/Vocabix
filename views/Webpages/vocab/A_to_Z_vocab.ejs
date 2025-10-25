@@ -1,407 +1,222 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../partial/html_header') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Vocabulary Words | A-Z</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-      /* --- Global Styles & Variables --- */
-      :root {
-        --primary: #673ab7;
-        --primary-light: #7e57c2;
-        --primary-dark: #512da8;
-        --text-dark: #333;
-        --text-medium: #555;
-        --text-light: #8d99ae;
-        --text-light-color: #64748b;
-        --border: #e0e0e0;
-        --bg-light: #f5f5f5;
-        --card-color: #ffffff;
-        --input-bg: #f9f9f9;
-        --table-header: #ede7f6;
-        --table-even: #f9f9f9;
-        --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        --error: #e74c3c;
-        --success: #4cc9f0; /* Kept from original for potential use */
-        --transition: all 0.3s ease;
-      }
-      
-     
+  <title>VocabiX - All Vocabulary</title>
+  <link rel="stylesheet" href="/home_page.css">
+  <link rel="stylesheet" href="/nav_bar.css">
+  </head>
+  <style>
+.vocabulary-container {
+  padding: 2rem;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+.vocabulary-container h1{
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+   border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
+/* Heading */
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+   border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
+.letter-heading{
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+/* Table Container */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  background: var(--color-white);
+}
 
+/* Table Base */
+.words-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  font-size: 0.95rem;
+}
 
-      
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
+/* Header Cells */
+.words-table th,
+.words-table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-gray-200);
+}
 
-      /* --- Add Word Form Styles (Updated theme) --- */
-      .form-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 3rem 1rem;
-        background-color: var(--bg-light);
-      }
+/* Header Style */
+.words-table th {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-      .form-container {
-        width: 100%;
-        max-width: 500px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
-        padding: 2.5rem;
-        animation: fadeIn 0.4s ease-out;
-      }
+/* Table Body */
+.words-table td {
+  color: var(--color-gray-800);
+  vertical-align: top;
+  cursor: pointer;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
 
-      .form-header {
-        text-align: center;
-        margin-bottom: 2.5rem;
-      }
-
-      .form-header h1 {
-        color: var(--text-dark);
-        font-size: 1.8rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .form-header p {
-        color: var(--text-light);
-        font-size: 1rem;
-      }
-
-      .word-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.75rem;
-      }
-
-      .form-group {
-        position: relative;
-      }
-
-      .form-input {
-        width: 100%;
-        padding: 1rem 1rem 1rem 3rem;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background-color: var(--input-bg);
-      }
-
-      textarea.form-input {
-        min-height: 100px;
-        resize: vertical;
-        padding-top: 1.5rem;
-      }
-
-      .form-input:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(103, 58, 183, 0.15);
-      }
-
-      .input-icon {
-        position: absolute;
-        left: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--text-light);
-        transition: all 0.3s ease;
-      }
-
-      .form-input:focus ~ .input-icon {
-        color: var(--primary);
-      }
-
-      .floating-label label {
-        position: absolute;
-        left: 3rem;
-        top: 1rem;
-        color: var(--text-light);
-        pointer-events: none;
-        transition: all 0.3s ease;
-        background: var(--input-bg);
-        padding: 0 0.5rem;
-      }
-      .form-input:focus ~ label,
-      .form-input:not(:placeholder-shown) ~ label {
-        transform: translateY(-1.5rem) scale(0.85);
-        color: var(--primary);
-        left: 2.5rem;
-        background: white;
-      }
-
-      .submit-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        width: 100%;
-        padding: 1rem;
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 1rem;
-      }
-
-      .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(103, 58, 183, 0.3);
-      }
-      
-      /* ====== A-Z Vocabulary List Styles ====== */
-      .vocabulary-container {
-        width: 95%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem;
-      }
-
-      .vocabulary-container h2 {
-        text-align: center;
-        color: var(--text-dark);
-        margin: 2rem 0;
-        font-size: clamp(1.8rem, 4vw, 2.5rem);
-        position: relative;
-      }
-
-      .vocabulary-container h2::after {
-        content: '';
-        display: block;
-        width: 80px;
-        height: 3px;
-        background: var(--primary);
-        margin: 0.5rem auto 0;
-        border-radius: 2px;
-      }
-
-      .letter-section {
-        margin-bottom: 2.5rem;
-        background: var(--card-color);
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        border: 1px solid var(--border);
-      }
-      
-      .letter-heading {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary-dark);
-        padding: 1rem 1.5rem;
-        background-color: var(--table-header);
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .letter-heading::before {
-        content: '#';
-        margin-right: 0.5rem;
-        color: var(--primary);
-      }
-      
-      .table-responsive {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      
-      .words-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 1rem;
-      }
-
-      .words-table th,
-      .words-table td {
-        padding: 1rem 1.5rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border);
-        word-wrap: break-word;
-      }
-      
-      .words-table tr:last-child td {
-          border-bottom: none;
-      }
-
-      .words-table th {
-        background-color: #fcfcff;
-        color: var(--text-dark);
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        letter-spacing: 0.5px;
-      }
-
-      .words-table tr:nth-child(even) {
-        background-color: var(--table-even);
-      }
-
-      .word-cell {
-        font-weight: 600;
-        color: var(--primary-dark);
-      }
-
-      .meaning-cell,
-      .sentence-cell {
-        color: var(--text-light-color);
-      }
-
-      .sentence-cell {
-        font-style: italic;
-      }
-      
-       /* No words container */
-      .no-words {
-        text-align: center;
-        padding: 2rem 1rem;
-        background-color: #ffffff;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        max-width: 500px;
-        margin: 2rem auto;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease;
-      }
-
-      .no-words:hover {
-        transform: translateY(-3px);
-      }
-
-      .no-words i {
-        font-size: 3rem;
-        color: var(--primary);
-        margin-bottom: 1rem;
-      }
-
-      .no-words p {
-        font-size: 1rem;
-        color: #4b5563;
-        margin: 0.5rem 0 0;
-        line-height: 1.5;
-      }
-
-      .no-words a {
-        color: var(--primary-light);
-        font-weight: 600;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-
-      .no-words a:hover {
-        color: var(--primary-dark);
-        text-decoration: underline;
-      }
+/* Zebra striping */
+.words-table tr:nth-child(even) td {
+   background-color: #e0e7ff;
+}
 
 
-      /* ====== RESPONSIVE ====== */
-      @media (max-width: 768px) {
-          .form-container, .letter-section {
-              padding: 2rem 1.5rem;
-          }
-          .form-header h1, .vocabulary-container h2 {
-              font-size: 1.6rem;
-          }
-      }
 
-      @media (max-width: 480px) {
-        .form-wrapper {
-          padding: 2rem 1rem;
-        }
-        .form-container {
-          padding: 1.5rem 1.25rem;
-        }
-        .form-header {
-          margin-bottom: 1.5rem;
-        }
-        .form-header h1, .vocabulary-container h2 {
-          font-size: 1.4rem;
-        }
-        .word-form {
-          gap: 1.25rem;
-        }
-        .form-input {
-          padding: 0.9rem 0.9rem 0.9rem 2.8rem;
-          font-size: 0.95rem;
-        }
-        .input-icon {
-          left: 0.9rem;
-          font-size: 0.9rem;
-        }
-        .floating-label label {
-          left: 2.8rem;
-          font-size: 0.9rem;
-        }
-        .form-input:focus ~ label,
-        .form-input:not(:placeholder-shown) ~ label {
-          transform: translateY(-1.3rem) scale(0.85);
-          left: 2.3rem;
-        }
-        .submit-btn {
-          padding: 0.9rem;
-          font-size: 1rem;
-        }
-        .words-table td, .words-table th {
-            padding: 0.75rem;
-        }
-      }
 
-    </style>
-</head>
-<body>
-  <%- include('../partial/nav_bar',{ currentPage: 'allWords' }) %>
-  
-  <div class="vocabulary-container">
-    <h1>Vocabulary Words A to Z</h1>
+/* Empty Table State */
+.no-words {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
 
-    <% if (groupedWords.length === 0) { %>
-      <div class="no-words">
-        <i class="fas fa-book-open"></i>
-        <p>No vocabulary words found. Would you like to <a href="/add-word">add one</a>?</p>
-      </div>
-    <% } else { %>
-      <% groupedWords.forEach(group => { %>
-        <div class="letter-section">
-          <div class="letter-heading"><%= group.letter %></div>
+.no-words i {
+  font-size: 3rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  display: block;
+}
 
-          <!-- ✅ Scroll wrapper added -->
-          <div class="table-responsive">
-            <table class="words-table">
-              <thead>
-                <tr>
-                  <th>Vocabulary</th>
-                  <th>Meaning</th>
-                  <th>Example Sentence</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% group.words.forEach(word => { %>
-                  <tr>
-                    <td class="word-cell" data-label="Word"><%= word.word %></td>
-                    <td class="meaning-cell" data-label="Meaning"><%= word.meaning %></td>
-                    <td class="sentence-cell" data-label="Example"><%= word.sentence %></td>
-                  </tr>
-                <% }) %>
-              </tbody>
-            </table>
-          </div>
-          <!-- ✅ End Scroll wrapper -->
+.no-words a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
 
-        </div>
-      <% }) %>
-    <% } %>
-</div>
-</body>
-</html>
+.no-words a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .words-table thead {
+    display: none;
+  }
+
+  .words-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 10px;
+    padding: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  .words-table td {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border: none;
+  }
+
+  .words-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: 0.3rem;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+}
+
+  </style>
+
+  <body>
+    <!-- Mobile Menu Button -->
+
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <%- include('../partial/nav_bar', { currentPage: 'vocabs' }) %>
+        <!-- Main Content -->
+        <main class="main-content">
+
+          <%- include('../partial/header_nav_bar') %>
+
+            <div class="vocabulary-container">
+              <h1>All Vocabulary </h1>
+
+              <% if (groupedWords.length===0) { %>
+                <div class="no-words">
+                  <i class="fas fa-book-open"></i>
+                  <p>No vocabulary words found. Would you like to <a href="/add-word">add one</a>?</p>
+                </div>
+                <% } else { %>
+                  <% groupedWords.forEach(group=> { %>
+                    <div class="letter-section">
+                      <div class="letter-heading">
+                        <%= group.letter %>
+                      </div>
+
+
+                      <div class="table-responsive">
+                        <table class="words-table">
+                          <thead>
+                            <tr>
+                              <th>Vocabulary</th>
+                              <th>Meaning</th>
+                              <th>Example Sentence</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% group.words.forEach(word=> { %>
+                              <tr>
+                                <td class="word-cell" data-label="Word">
+                                  <%= word.word %>
+                                </td>
+                                <td class="meaning-cell" data-label="Meaning">
+                                  <%= word.meaning %>
+                                </td>
+                                <td class="sentence-cell" data-label="Example">
+                                  <%= word.sentence %>
+                                </td>
+                              </tr>
+                              <% }) %>
+                          </tbody>
+                        </table>
+                      </div>
+
+
+                    </div>
+                    <% }) %>
+                      <% } %>
+            </div>
+        </main>
+    </div>
+
+
+    <script src="/nav_bar.js"></script>
+  </body>
+
+  </html>

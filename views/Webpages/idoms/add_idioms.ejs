@@ -1,282 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Idiom or Phrase</title>
-      <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    :root {
-      --primary: #8e44ad;
-      --primary-light: #9b59b6;
-      --primary-dark: #732d91;
-      --text-dark: #1e293b;
-      --text-light: #64748b;
-      --border: #cbd5e1;
-      --bg-light: #f8fafc;
-      --success: #2ecc71;
-      --error: #e74c3c;
-      --shadow: 0 4px 20px rgba(0,0,0,0.08);
-      --transition: all 0.3s ease;
-    }
+<%- include('../partial/html_header') %>
+
+    <title>VocabiX - Add Idioms</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    </head>
+<style>
+.vocab-container {
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.vocab-container h1 {
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.vocab-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.vocab-row input {
+  flex: 1 1 180px;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-400);
+  font-size: 1rem;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+#addMoreBtn {
+  background-color: var(--color-cyan);
+  color: white;
+  margin-right: 1rem;
+}
+
+#submitBtn {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+@media (max-width: 768px) {
+ 
+
+  .delete-btn {
+    align-self: flex-end;
+  }
+}
+</style>
+    <body>
+        <!-- Mobile Menu Button -->
 
 
-    .idiom-form-container {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: calc(100vh - 80px);
-      padding: 2rem 1rem;
-    }
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
 
-    .idiom-form-card {
-      background-color: white;
-      padding: 2.5rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      width: 100%;
-      max-width: 500px;
-      animation: fadeIn 0.4s ease-out;
-    }
+        <!-- Main Container -->
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'Phrases' }) %>
+                <!-- Main Content -->
+                <main class="main-content">
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+                    <%- include('../partial/header_nav_bar') %>
+<div class="vocab-container">
+        <h1>Add Idiom & Phrase</h1>
 
-    .form-title {
-      text-align: center;
-      font-size: clamp(1.5rem, 4vw, 1.75rem);
-      color: var(--text-dark);
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-
-    .form-title::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: var(--primary);
-      margin: 0.75rem auto 0;
-    }
-
-    .success-message {
-      text-align: center;
-      padding: 0.75rem;
-      background-color: rgba(46, 204, 113, 0.1);
-      color: var(--success);
-      border-radius: 6px;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .idiom-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.75rem;
-    }
-
-    .form-group {
-      position: relative;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 1rem 1rem 1rem 3rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: var(--transition);
-      background-color: var(--bg-light);
-    }
-
-    textarea.form-input {
-      min-height: 100px;
-      resize: vertical;
-      padding-top: 1.5rem;
-    }
-
-    .form-input:focus {
-      border-color: var(--primary);
-      background-color: white;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
-    }
-
-    .input-icon {
-      position: absolute;
-      left: 1rem;
-      top: 1rem;
-      color: var(--text-light);
-      transition: var(--transition);
-    }
-
-    .form-input:focus ~ .input-icon {
-      color: var(--primary);
-    }
-
-    .form-label {
-      position: absolute;
-      left: 3rem;
-      top: 1rem;
-      color: var(--text-light);
-      pointer-events: none;
-      transition: var(--transition);
-      background: white;
-      padding: 0 0.5rem;
-    }
-
-    .form-input:focus ~ .form-label,
-    .form-input:not(:placeholder-shown) ~ .form-label {
-      transform: translateY(-1.5rem) scale(0.85);
-      color: var(--primary);
-      left: 2.5rem;
-    }
-
-    .submit-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-top: 0.5rem;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
-    }
-
-    .submit-btn:active {
-      transform: translateY(0);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .idiom-form-card {
-        padding: 2rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .idiom-form-container {
-        padding: 1rem;
-        align-items: flex-start;
-      }
-
-      .idiom-form-card {
-        padding: 1.5rem 1.25rem;
-      }
-
-      .idiom-form {
-        gap: 1.25rem;
-      }
-
-      .form-input {
-        padding: 0.9rem 0.9rem 0.9rem 2.8rem;
-        font-size: 0.95rem;
-      }
-
-      .input-icon {
-        left: 0.9rem;
-        font-size: 0.9rem;
-      }
-
-      .form-label {
-        left: 2.8rem;
-        font-size: 0.9rem;
-      }
-
-      .form-input:focus ~ .form-label,
-      .form-input:not(:placeholder-shown) ~ .form-label {
-        transform: translateY(-1.3rem) scale(0.85);
-        left: 2.3rem;
-      }
-
-      .submit-btn {
-        padding: 0.9rem;
-        font-size: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <%- include('../partial/nav_bar', { currentPage: 'addidiom' }) %>
-
-  <div class="idiom-form-container">
-    <div class="idiom-form-card">
-      <h2 class="form-title">Add Idiom or Phrase</h2>
-
-      
-
-      <form action="/add-idiom" method="POST" class="idiom-form">
-        <div class="form-group">
-          <input 
-            type="text" 
-            name="idiom" 
-            id="idiom" 
-            placeholder=" " 
-            required 
-            class="form-input" 
-            autocomplete="off"
-          />
-          <div class="input-icon">
-            <i class="fas fa-quote-left"></i>
+        <form id="vocabForm">
+          <div id="vocabInputs">
+            <!-- First vocab input row -->
+            <div class="vocab-row">
+              <input type="text" name="word[]" placeholder="Idiom & Phrase" required />
+              <input type="text" name="meaning[]" placeholder="Meaning" required />
+              <input type="text" name="sentence[]" placeholder="Example Sentence" />
+              <button type="button" class="delete-btn">✖</button>
+            </div>
           </div>
-          <label for="idiom" class="form-label">Idiom or Phrase</label>
-        </div>
 
-        <div class="form-group">
-          <textarea 
-            name="meaning" 
-            id="meaning" 
-            placeholder=" " 
-            rows="3" 
-            required 
-            class="form-input"
-          ></textarea>
-          <div class="input-icon">
-            <i class="fas fa-book-open"></i>
-          </div>
-          <label for="meaning" class="form-label">Meaning</label>
+          <button type="button" id="addMoreBtn">Add More</button>
+          <button type="submit" id="submitBtn">Submit All</button>
+        </form>
+      </div>
+                </main>
         </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const addMoreBtn = document.getElementById('addMoreBtn');
+  const vocabInputs = document.getElementById('vocabInputs');
+  const vocabForm = document.getElementById('vocabForm');
 
-        <div class="form-group">
-          <textarea 
-            name="example" 
-            id="example" 
-            placeholder=" " 
-            rows="3" 
-            required 
-            class="form-input"
-          ></textarea>
-          <div class="input-icon">
-            <i class="fas fa-comment-dots"></i>
-          </div>
-          <label for="example" class="form-label">Example Sentence</label>
-        </div>
+  // Add new vocab row
+  addMoreBtn.addEventListener('click', () => {
+    const newRow = document.createElement('div');
+    newRow.className = 'vocab-row';
+    newRow.innerHTML = `
+      <input type="text" name="word[]" placeholder="Vocabulary" required />
+      <input type="text" name="meaning[]" placeholder="Meaning" required />
+      <input type="text" name="sentence[]" placeholder="Example Sentence" />
+      <button type="button" class="delete-btn">✖</button>
+    `;
+    vocabInputs.appendChild(newRow);
+  });
 
-        <button type="submit" class="submit-btn">
-          <span>Add to Collection</span>
-          <i class="fas fa-plus-circle"></i>
-        </button>
-      </form>
-    </div>
-  </div>
-</body>
-</html>
+  // Delete vocab row
+  vocabInputs.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-btn')) {
+      const rows = vocabInputs.querySelectorAll('.vocab-row');
+      if (rows.length > 1) {
+        e.target.parentElement.remove();
+      } else {
+        alert('At least one vocab is required!');
+      }
+    }
+  });
+
+  // Handle form submission
+  vocabForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(vocabForm);
+    const words = formData.getAll('word[]');
+    const meanings = formData.getAll('meaning[]');
+    const sentences = formData.getAll('sentence[]');
+
+    const vocabData = words.map((word, index) => ({
+      word,
+      meaning: meanings[index],
+      sentence: sentences[index]
+    }));
+
+    try {
+      const res = await fetch('/add-idiom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vocab: vocabData })
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert('All vocabulary added successfully!');
+        window.location.reload();
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      alert('Error submitting vocab.');
+      console.error(error);
+    }
+  });
+});
+</script>
+<script src="/nav_bar.js"></script>
+    </body>
+
+    </html>

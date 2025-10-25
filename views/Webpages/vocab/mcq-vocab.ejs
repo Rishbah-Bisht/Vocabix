@@ -1,488 +1,342 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../partial/html_header') %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VocabLearner | MCQ Quiz</title>
-   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>VocabiX - Home</title>
+  <link rel="stylesheet" href="/home_page.css">
+  <link rel="stylesheet" href="/nav_bar.css">
+  </head>
   <style>
-    /* ===== Global Setup & Variables ===== */
-    :root {
-      --primary: #8e44ad;
-      --primary-light: #9b59b6;
-      --primary-dark: #732d91;
-      --correct: #4caf50;
-      --wrong: #f44336;
-      --bg: #f5f7fa;
-      --card-bg: #ffffff;
-      --text-dark: #333;
-      --text-light: #666;
-      --border: #e0e0e0;
-      
-    }
-
-   
-
-    /* ===== Main Layout ===== */
-    .main-container {
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
     .card {
-      background: var(--card-bg);
+      background: var(--color-white);
       padding: 2rem;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-    
-    .hidden {
-        display: none;
+      border-radius: 16px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+      margin: 4rem auto;
     }
 
     h2 {
-      color: var(--primary-dark);
+      color: var(--color-primary);
       text-align: center;
+        text-align: left;
       margin-bottom: 1.5rem;
-      font-size: 2rem;
     }
 
-    /* ===== Quiz Elements ===== */
     .progress-container {
       text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    
-    #progress {
-      font-size: 1.1rem;
+      margin-bottom: 1rem;
       font-weight: 600;
-      padding: 0.5rem 1.5rem;
-      border-radius: 50px;
-      background-color: rgba(142, 68, 173, 0.1);
-      color: var(--primary-dark);
-      display: inline-block;
+      color: var(--color-gray-700);
     }
-    
+
     .score-indicator {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .score-box {
       padding: 0.5rem 1rem;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: 600;
     }
 
-    .correct-score { background-color: rgba(76, 175, 80, 0.1); color: var(--correct); }
-    .wrong-score { background-color: rgba(244, 67, 54, 0.1); color: var(--wrong); }
-
-    .word-display {
-      font-size: 1.25rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      padding: 1rem;
-      background-color: rgba(142, 68, 173, 0.05);
-      border-radius: 8px;
+    .correct-score {
+      background-color: #d4edda;
+      color: #155724;
     }
 
-    .word-display strong {
-      color: var(--primary);
+    .wrong-score {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .word-display {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: var(--color-gray-900);
     }
 
     .options-container {
-      display: grid;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      display: flex;
+      width: 700px;
+      flex-direction: column;
+      gap: 0.8rem;
     }
 
     .option {
-      display: flex;
-      align-items: center;
-      padding: 1rem 1.5rem;
+      border: 1px solid var(--color-gray-300);
       border-radius: 8px;
-      border: 1px solid var(--border);
-      transition: all 0.2s ease;
+      padding: 0.8rem 1rem;
       cursor: pointer;
+      transition: all 0.25s ease;
+      background-color: var(--color-white);
     }
 
     .option:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
+      background-color: var(--color-gray-100);
     }
 
-    .option.correct-option { background-color: rgba(76, 175, 80, 0.1); border-color: var(--correct); }
-    .option.wrong-option { background-color: rgba(244, 67, 54, 0.1); border-color: var(--wrong); }
-
-    input[type="radio"] {
-      min-width: 1.2em;
-      min-height: 1.2em;
-      margin-right: 1rem;
-      accent-color: var(--primary);
+    .option.correct-option {
+      background-color: #d4edda;
+      border-color: #28a745;
+      color: #155724;
     }
 
-    label {
-      font-size: 1.1rem;
-      cursor: pointer;
-      flex-grow: 1;
+    .option.wrong-option {
+      background-color: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
     }
-    
+
     .feedback {
       text-align: center;
-      font-size: 1.2rem;
       font-weight: 600;
-      margin-top: 1.5rem;
-      padding: 1rem;
+      margin-top: 1rem;
+      padding: 0.8rem;
       border-radius: 8px;
+      display: none;
     }
-    
-    .feedback.correct { color: var(--correct); background-color: rgba(76, 175, 80, 0.1); }
-    .feedback.wrong { color: var(--wrong); background-color: rgba(244, 67, 54, 0.1); }
 
-    /* ===== Buttons ===== */
-    .button-container {
-      display: flex;
-      justify-content: space-between;
+   .feedback.correct {
+       display: none;
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .feedback.wrong {
+      display: none;
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .btn {
-      flex: 1;
-      padding: 0.8rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      background-color: var(--color-primary);
       color: white;
+      padding: 0.6rem 1.2rem;
       border: none;
       border-radius: 8px;
-      font-size: 1.1rem;
       cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
     }
 
     .btn:hover {
+      opacity: 0.9;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(142, 68, 173, 0.4);
     }
-    
-    .btn:disabled {
-        background: #cccccc;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-    
-    /* ===== Summary Screen Styles ===== */
+
     .summary-stats {
-        text-align: center;
-        margin-bottom: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
     }
+
     .summary-score-percentage {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: var(--primary-dark);
-        margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
     }
-    .summary-counts {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        font-size: 1.1rem;
-    }
-    .summary-progress-bar {
-        width: 100%;
-        height: 1.25rem;
-        background-color: #e0e0e0;
-        border-radius: 1rem;
-        overflow: hidden;
-        margin: 1.5rem 0;
-    }
-    .summary-progress-bar-inner {
-        height: 100%;
-        background: linear-gradient(90deg, var(--correct) 0%, #8bc34a 100%);
-    }
-    .summary-review-title {
-        text-align: center;
-        color: var(--primary-dark);
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
+
     .review-item {
-        margin-bottom: 1rem;
-        padding: 1rem;
-        background-color: var(--bg);
-        border-radius: 8px;
-        border-left: 4px solid var(--wrong);
+      background: var(--color-gray-50);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
     }
-    .review-item strong { color: var(--primary-dark); }
-    .review-item .your-answer { color: var(--wrong); }
-    .review-item .correct-answer { color: var(--correct); }
-    
-    /* ===== Responsive Design ===== */
-    @media (max-width: 768px) {
+
+    .correct-answer {
+      color: #28a745;
+      font-weight: 600;
+    }
+
+    .your-answer {
+      color: #dc3545;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
       .card {
         padding: 1.5rem;
       }
-      h2 {
-        font-size: 1.75rem;
-      }
-    }
-    @media (max-width: 480px) {
-      html {
-        font-size: 15px; /* Slightly smaller base for very small screens */
-      }
-      .card {
-        padding: 1rem;
-      }
-      .option {
-        padding: 0.8rem 1rem;
-      }
     }
   </style>
-</head>
 
-<body>
-  <%- include('../partial/nav_bar',{ currentPage: 'mcq-vocab' }) %>
-  <div class="main-container">
+  <body>
+    <!-- Mobile Menu Button -->
 
-    <div id="quizContainer" class="card">
-      <h2>MCQ Quiz</h2>
 
-      <div class="progress-container">
-        <div id="progress">Question 1 of ...</div>
-      </div>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
-      <div class="score-indicator">
-        <div class="score-box correct-score" id="correctCount">Correct: 0</div>
-        <div class="score-box wrong-score" id="wrongCount">Wrong: 0</div>
-      </div>
+    <!-- Main Container -->
+    <div class="main-container">
+      <%- include('../partial/nav_bar', { currentPage: 'vocabs' }) %>
+        <!-- Main Content -->
+        <main class="main-content">
 
-      <p class="word-display"><strong>Word:</strong> <%= word %></p>
-      
-      <form id="quizForm">
-        <div class="options-container">
-          <% options.forEach(opt => { %>
-          <div class="option">
-            <input type="radio" name="opt" value="<%= opt %>" id="<%= opt %>">
-            <label for="<%= opt %>"><%= opt %></label>
-          </div>
-          <% }) %>
-        </div>
+          <%- include('../partial/header_nav_bar') %>
+            <div id="quizContainer" class="card">
+              <h2>MCQ Quiz</h2>
 
-        <div class="feedback hidden" id="feedback"></div>
+              <div class="progress-container">
+                <div id="progress">Question 1 of ...</div>
+              </div>
 
-        <div class="button-container">
-          <button type="submit" id="submitBtn" class="btn">
-            <i class="fas fa-paper-plane"></i> Submit Answer
-          </button>
-        </div>
-      </form>
+              <div class="score-indicator">
+                <div class="score-box correct-score" id="correctCount">Correct: 0</div>
+                <div class="score-box wrong-score" id="wrongCount">Wrong: 0</div>
+              </div>
+
+              <p class="word-display"><strong>Word:</strong>
+                <%= word %>
+              </p>
+
+              <div id="quizContent">
+                <div class="options-container" id="optionsContainer">
+                  <% options.forEach(opt=> { %>
+                    <div class="option">
+                      <input type="radio" name="opt" value="<%= opt %>" id="<%= opt %>">
+                      <label for="<%= opt %>">
+                        <%= opt %>
+                      </label>
+                    </div>
+                    <% }) %>
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+              </div>
+            </div>
+        </main>
     </div>
-
-    <div id="summaryContainer" class="card hidden">
-        <h2>Quiz Summary</h2>
-        
-        <div class="summary-stats">
-            <div id="summaryScore" class="summary-score-percentage">0%</div>
-            <div class="summary-counts">
-                <span id="summaryCorrect" class="correct-score"><i class="fas fa-check"></i> 0 Correct</span>
-                <span id="summaryWrong" class="wrong-score"><i class="fas fa-times"></i> 0 Incorrect</span>
-            </div>
-            <div class="summary-progress-bar">
-                <div id="summaryProgressBar" class="summary-progress-bar-inner" style="width: 0%;"></div>
-            </div>
-        </div>
-
-        <h3 class="summary-review-title">Incorrect Answers Review</h3>
-        <div id="reviewList">
-            </div>
-        
-        <div class="button-container">
-            <button id="restartBtn" class="btn" style="margin-top: 1.5rem;">
-                <i class="fas fa-redo"></i> Restart Quiz
-            </button>
-        </div>
-    </div>
-  </div>
-
 <script>
-    // === DOM ELEMENT SELECTION ===
-    const quizContainer = document.getElementById('quizContainer');
-    const summaryContainer = document.getElementById('summaryContainer');
-    const wordEl = document.querySelector('.word-display');
-    const optionsEl = document.querySelector('.options-container');
-    const mcqForm = document.getElementById('quizForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const progressDiv = document.getElementById('progress');
-    const feedbackDiv = document.getElementById('feedback');
-    const correctCountEl = document.getElementById('correctCount');
-    const wrongCountEl = document.getElementById('wrongCount');
-    const restartBtn = document.getElementById('restartBtn');
+const optionsContainer = document.getElementById('optionsContainer');
+const feedbackDiv = document.getElementById('feedback');
+const correctCountEl = document.getElementById('correctCount');
+const wrongCountEl = document.getElementById('wrongCount');
+const progressDiv = document.getElementById('progress');
+const wordEl = document.querySelector('.word-display');
 
-    // === QUIZ STATE ===
-    let currentAnswer = '';
-    let shownWords = [];
-    let answerResults = [];
-    let totalQuestions = 0; // Will be fetched from server
-    let state = 'answering'; // Can be 'answering' or 'feedback'
+let currentAnswer = '';
+let shownWords = [];
+let answerResults = [];
+let totalQuestions = 0;
 
-    // === FUNCTIONS ===
-    async function loadQuestion() {
-        state = 'answering';
-        try {
-            const res = await fetch(`/mcq-json?shown=${JSON.stringify(shownWords)}`);
-            const data = await res.json();
+async function loadQuestion() {
+  try {
+    const res = await fetch(`/mcq-json?shown=${JSON.stringify(shownWords)}`);
+    const data = await res.json();
 
-            // Check if quiz is finished
-            if (data.finished) {
-                showSummary();
-                return;
-            }
-
-            // Set total questions on first load
-            if (totalQuestions === 0) totalQuestions = data.totalCount || 20;
-
-            // Update UI elements
-            const currentQuestionIndex = shownWords.length + 1;
-            progressDiv.textContent = `Question ${currentQuestionIndex} of ${totalQuestions}`;
-            wordEl.innerHTML = `<strong>Word:</strong> ${data.word}`;
-
-            // Update state
-            currentAnswer = data.answer;
-            shownWords.push(data.id);
-
-            // Reset UI for new question
-            feedbackDiv.classList.add('hidden');
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Answer';
-            submitBtn.disabled = false;
-
-            // Populate options
-            optionsEl.innerHTML = data.options.map((option, i) => `
-                <div class="option">
-                    <input type="radio" name="opt" value="${option}" id="opt${i}">
-                    <label for="opt${i}">${option}</label>
-                </div>
-            `).join('');
-
-        } catch (error) {
-            console.error('Error loading question:', error);
-            feedbackDiv.textContent = 'Error loading question. Please try again.';
-            feedbackDiv.className = 'feedback wrong'; // Keep 'wrong' class for styling
-        }
+    if (data.finished) {
+      showSummary();
+      return;
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        
-        if (state === 'answering') {
-            const selectedOption = document.querySelector('input[name="opt"]:checked');
-            if (!selectedOption) {
-                feedbackDiv.textContent = 'Please select an answer.';
-                feedbackDiv.className = 'feedback wrong';
-                return;
-            }
-            
-            checkAnswer(selectedOption.value);
-            state = 'feedback';
+    if (totalQuestions === 0) totalQuestions = data.totalCount || 20;
 
-        } else if (state === 'feedback') {
-            loadQuestion();
-        }
+    const currentQuestionIndex = shownWords.length + 1;
+    progressDiv.textContent = `Question ${currentQuestionIndex} of ${totalQuestions}`;
+    wordEl.innerHTML = `<strong>Word:</strong> ${data.word}`;
+    currentAnswer = data.answer;
+    shownWords.push(data.id);
+
+    feedbackDiv.style.display = 'none';
+
+    optionsContainer.innerHTML = data.options.map((option, i) => `
+      <div class="option" data-value="${option}">
+        <label>${option}</label>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    console.error('Error loading question:', err);
+  }
+}
+
+optionsContainer.addEventListener('click', (e) => {
+  const clicked = e.target.closest('.option');
+  if (!clicked) return;
+
+  const selectedValue = clicked.getAttribute('data-value');
+  const isCorrect = selectedValue === currentAnswer;
+
+  document.querySelectorAll('.option').forEach(opt => {
+    opt.style.pointerEvents = 'none';
+    if (opt.getAttribute('data-value') === currentAnswer) {
+      opt.classList.add('correct-option');
     }
-    
-    function checkAnswer(selectedValue) {
-        const isCorrect = selectedValue === currentAnswer;
-        
-        // Update score counters
-        let correctCount = answerResults.filter(r => r.correct).length;
-        let wrongCount = answerResults.length - correctCount;
-
-        if (isCorrect) {
-            correctCount++;
-            feedbackDiv.textContent = '✅ Correct! Well done!';
-            feedbackDiv.className = 'feedback correct';
-        } else {
-            wrongCount++;
-            feedbackDiv.textContent = `❌ Incorrect. Correct answer: ${currentAnswer}`;
-            feedbackDiv.className = 'feedback wrong';
-        }
-
-        correctCountEl.textContent = `Correct: ${correctCount}`;
-        wrongCountEl.textContent = `Wrong: ${wrongCount}`;
-
-        // Visually mark options
-        document.querySelectorAll('.option').forEach(optDiv => {
-            const input = optDiv.querySelector('input');
-            input.disabled = true;
-            if (input.value === currentAnswer) {
-                optDiv.classList.add('correct-option');
-            }
-            if (input.checked && !isCorrect) {
-                optDiv.classList.add('wrong-option');
-            }
-        });
-        
-        // Save result
-        answerResults.push({
-            word: wordEl.textContent.replace('Word:', '').trim(),
-            correct: isCorrect,
-            givenAnswer: selectedValue,
-            correctAnswer: currentAnswer
-        });
-
-        submitBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Next Question';
+    if (opt === clicked && !isCorrect) {
+      opt.classList.add('wrong-option');
     }
+  });
 
-    function showSummary() {
-        quizContainer.classList.add('hidden');
-        summaryContainer.classList.remove('hidden');
+  feedbackDiv.style.display = 'block';
+  feedbackDiv.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  feedbackDiv.textContent = isCorrect ? '✅ Correct!' : `❌ Incorrect. Correct answer: ${currentAnswer}`;
 
-        const totalCorrect = answerResults.filter(r => r.correct).length;
-        const percentage = Math.round((totalCorrect / answerResults.length) * 100) || 0;
+  answerResults.push({
+    word: wordEl.textContent.replace('Word:', '').trim(),
+    correct: isCorrect,
+    givenAnswer: selectedValue,
+    correctAnswer: currentAnswer
+  });
 
-        // Populate summary elements
-        document.getElementById('summaryScore').textContent = `${percentage}%`;
-        document.getElementById('summaryCorrect').innerHTML = `<i class="fas fa-check"></i> ${totalCorrect} Correct`;
-        document.getElementById('summaryWrong').innerHTML = `<i class="fas fa-times"></i> ${answerResults.length - totalCorrect} Incorrect`;
-        document.getElementById('summaryProgressBar').style.width = `${percentage}%`;
-        
-        const reviewList = document.getElementById('reviewList');
-        const incorrectAnswers = answerResults.filter(r => !r.correct);
-        
-        if (incorrectAnswers.length === 0) {
-            reviewList.innerHTML = `<div style="text-align: center; color: var(--correct);"><i class="fas fa-trophy"></i> Perfect Score!</div>`;
-        } else {
-            reviewList.innerHTML = incorrectAnswers.map(r => `
-                <div class="review-item">
-                    <div><strong>Word:</strong> ${r.word}</div>
-                    <div>Your Answer: <span class="your-answer">${r.givenAnswer}</span></div>
-                    <div>Correct Answer: <span class="correct-answer">${r.correctAnswer}</span></div>
-                </div>
-            `).join('');
-        }
-    }
+  const correctCount = answerResults.filter(r => r.correct).length;
+  const wrongCount = answerResults.length - correctCount;
+  correctCountEl.textContent = `Correct: ${correctCount}`;
+  wrongCountEl.textContent = `Wrong: ${wrongCount}`;
 
-    // === EVENT LISTENERS ===
-    mcqForm.addEventListener('submit', handleSubmit);
-    restartBtn.addEventListener('click', () => location.reload());
+  // Load next question after delay
+  setTimeout(loadQuestion, 1500);
+});
 
-    // === INITIAL LOAD ===
-    // Use the data from EJS on first load, then fetch for subsequent questions.
-    // This script assumes the first question is rendered by the server.
-    // To make it fully dynamic, we would call loadQuestion() immediately.
-    // For this example, we'll set up the state based on the server-rendered HTML.
-    
-    // Simulate initial load for dynamic behavior:
-    loadQuestion();
+function showSummary() {
+  const card = document.querySelector('.card');
+  card.innerHTML = `
+    <h2>Quiz Summary</h2>
+    <div class="summary-stats">
+      <div id="summaryScore" class="summary-score-percentage"></div>
+      <div><span id="summaryCorrect" class="correct-score"></span> | <span id="summaryWrong" class="wrong-score"></span></div>
+    </div>
+    <div id="reviewList"></div>
+    <div style="text-align:center;margin-top:1rem;">
+      <button class="btn" onclick="location.reload()">Restart</button>
+    </div>
+  `;
+
+  const totalCorrect = answerResults.filter(r => r.correct).length;
+  const percentage = Math.round((totalCorrect / answerResults.length) * 100) || 0;
+
+  document.getElementById('summaryScore').textContent = `${percentage}%`;
+  document.getElementById('summaryCorrect').textContent = `${totalCorrect} Correct`;
+  document.getElementById('summaryWrong').textContent = `${answerResults.length - totalCorrect} Wrong`;
+
+  const incorrect = answerResults.filter(r => !r.correct);
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = incorrect.length === 0
+    ? `<div style="text-align:center;color:#28a745;"><i class="fas fa-trophy"></i> Perfect Score!</div>`
+    : incorrect.map(r => `
+      <div class="review-item">
+        <div><strong>Word:</strong> ${r.word}</div>
+        <div>Your Answer: <span class="your-answer">${r.givenAnswer}</span></div>
+        <div>Correct Answer: <span class="correct-answer">${r.correctAnswer}</span></div>
+      </div>
+    `).join('');
+}
+
+loadQuestion();
 </script>
+    <script src="/nav_bar.js"></script>
+  </body>
 
-</body>
-</html>
+  </html>

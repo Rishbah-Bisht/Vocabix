@@ -1,177 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learning Dashboard</title>
-<link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-    --accent-color: #7e57c2;
-    --amber: #f59e0b;
-    --emerald: #10b981;
-    --blue: #3b82f6;
-    --violet: #8b5cf6;
-    --red: #ef4444;
-    --card-bg: #ffffff;
-    --text-dark: #1f2937;
-    --text-light: #4b5563;
-    --shadow: 0 4px 25px rgba(0,0,0,0.05);
-    --transition: all 0.3s ease;
-}
+<%- include('../partial/html_header') %>
 
-/* General page */
-body {
-    background-color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    color: var(--text-dark);
-}
+    <title>VocabiX - Home</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    </head>
 
-.container {
-    width: 95%;
-    max-width: 1200px;
-    margin: 2rem auto;
-}
+    <body>
+        <!-- Mobile Menu Button -->
 
-/* Page title */
-.page-title {
-    text-align: center;
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    margin-bottom: 2rem;
-    position: relative;
-}
 
-.page-title::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: var(--accent-color);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
-}
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
 
-/* Options grid */
-.options-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-}
+        <!-- Main Container -->
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'home' }) %>
+                <!-- Main Content -->
+                <main class="main-content">
 
-/* Option cards */
-.option-card {
-    background: var(--card-bg);
-    border: 2px solid var(--accent-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+                    <%- include('../partial/header_nav_bar') %>
 
-.option-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-}
 
-/* Icons */
-.option-card .icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--accent-color);
-}
+                        <!-- Content -->
+                        <div class="content">
+                            <div class="content-header">
+                                <h2 class="content-label">Professional</h2>
+                                <h3 class="content-title">Professional Education</h3>
+                            </div>
 
-/* Card titles */
-.option-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
+                            <div class="cards-grid">
+                                <!-- Card 1: Squares & Cubes -->
+                                <div class="card">
+                                    <div class="card-icon icon-cyan">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48"
+                                            height="48">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 16V8a2 2 0 00-1-1.732l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.732l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM12 2v20M3.5 8l8.5 5 8.5-5M3.5 16l8.5-5 8.5 5">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">Squares & Cubes</h4>
+                                        <p class="card-description">Revise “Squares & Cubes”</p>
+                                    </div>
+                                    <a href="/squares" class="card-btn btn-cyan">Explore</a>
+                                </div>
 
-/* Buttons with different colors */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: 600;
-    text-decoration: none;
-    color: white;
-    transition: var(--transition);
-}
+                                <!-- Card 2: Vocabulary -->
+                                <div class="card">
+                                    <div class="card-icon icon-green">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">Vocabulary</h4>
+                                        <p class="card-description">Revise “Vocabulary”</p>
+                                    </div>
+                                    <a href="/vocabs" class="card-btn btn-green">Explore</a>
+                                </div>
 
-/* Individual button colors */
-.squares-btn { background-color: var(--amber); }
-.squares-btn:hover { background-color: #d97706; }
+                                <!-- Card 3: Idioms & Phrases -->
+                                <div class="card">
+                                    <div class="card-icon icon-blue">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">Idioms & Phrases</h4>
+                                        <p class="card-description">Learn commonly used idioms and phrases</p>
+                                    </div>
+                                    <a href="#" class="card-btn btn-blue">Explore</a>
+                                </div>
 
-.idioms-btn { background-color: var(--emerald); }
-.idioms-btn:hover { background-color: #059669; }
+                                <!-- Card 4: Tables -->
+                                <div class="card">
+                                    <div class="card-icon icon-orange">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 6h16M4 12h16M4 18h16M4 6v12M20 6v12"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">Tables</h4>
+                                        <p class="card-description">Revise multiplication and data tables</p>
+                                    </div>
+                                    <a href="#" class="card-btn btn-orange">Explore</a>
+                                </div>
 
-.vocab-btn { background-color: var(--blue); }
-.vocab-btn:hover { background-color: #2563eb; }
+                                <!-- Card 5: General Awareness -->
+                                <div class="card">
+                                    <div class="card-icon icon-purple">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 2a10 10 0 110 20 10 10 0 010-20zM12 6v6l4 2"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">General Awareness</h4>
+                                        <p class="card-description">Stay updated with general knowledge topics</p>
+                                    </div>
+                                    <a href="#" class="card-btn btn-purple">Explore</a>
+                                </div>
+                            </div>
 
-.idioms-quiz-btn { background-color: var(--violet); }
-.idioms-quiz-btn:hover { background-color: #7c3aed; }
-
-.vocab-quiz-btn { background-color: var(--red); }
-.vocab-quiz-btn:hover { background-color: #dc2626; }
-
-/* Responsive */
-@media (max-width: 768px) {
-    .options-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-}
-</style>
-</head>
-<body>
-<%- include('../partial/nav_bar',{ currentPage: 'home' }) %>
-
-<div class="container">
-    <header>
-        <h1 class="page-title">Learning Dashboard</h1>
-    </header>
-
-    <div class="options-grid">
-        <!-- Squares & Cubes Quiz Card -->
-        <div class="option-card" onclick="window.location.href='/squares'">
-            <div class="icon"><i class="fas fa-cube"></i></div>
-            <h2 class="option-title">Squares & Cubes Quiz</h2>
-            <a href="/squares" class="btn squares-btn"><i class="fas fa-list-ol"></i> Take Quiz</a>
+                        </div>
+                </main>
         </div>
 
-        <!-- Idiom & Phrase Card -->
-        <div class="option-card" onclick="window.location.href='/idioms'">
-            <div class="icon"><i class="fas fa-quote-left"></i></div>
-            <h2 class="option-title">Idiom & Phrase</h2>
-            <a href="/idioms" class="btn idioms-btn"><i class="fas fa-book-open"></i> Revise</a>
-        </div>
+        <script src="/nav_bar.js"></script>
+    </body>
 
-        <!-- Vocabulary Card -->
-        <div class="option-card" onclick="window.location.href='/vocabs'">
-            <div class="icon"><i class="fas fa-book"></i></div>
-            <h2 class="option-title">Vocabulary</h2>
-            <a href="/vocabs" class="btn vocab-btn"><i class="fas fa-list-ul"></i> Revise</a>
-        </div>
-
-        <!-- Idioms & Phrase Quiz Card -->
-        <div class="option-card" onclick="window.location.href='/mcq-idioms'">
-            <div class="icon"><i class="fas fa-language"></i></div>
-            <h2 class="option-title">Idioms & Phrase Quiz</h2>
-            <a href="/mcq-idioms" class="btn idioms-quiz-btn"><i class="fas fa-play"></i> Start Practicing</a>
-        </div>
-
-        <!-- Vocab Quiz Card -->
-        <div class="option-card" onclick="window.location.href='/mcq-vocab'">
-            <div class="icon"><i class="fas fa-question-circle"></i></div>
-            <h2 class="option-title">Vocab Quiz</h2>
-            <a href="/mcq-vocab" class="btn vocab-quiz-btn"><i class="fas fa-list-ol"></i> Take Quiz</a>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+    </html>

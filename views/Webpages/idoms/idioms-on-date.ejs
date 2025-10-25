@@ -1,296 +1,297 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../partial/html_header') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Dashboard</title>
-       <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  :root {
-    --primary: #8e44ad;
-    --primary-light: #9b59b6;
-    --text-dark: #2c3e50;
-    --text-light: #555;
-    --border: #e0e0e0;
-    --bg-light: #f5f5f5;
-    --error: #e74c3c;
-    --table-header: #ede7f6;
-    --table-hover: #f9f9f9;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-
-
-  .idioms-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-
-  .page-title {
-    text-align: center;
-    margin: 1.5rem 0;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    color: var(--text-dark);
-    position: relative;
-  }
-
-  .page-title::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 3px;
-    background: var(--primary);
-    margin: 0.5rem auto 0;
-  }
-
-  .search-container {
-    margin: 2rem auto;
-    max-width: 600px;
-  }
-
-  .search-form {
-    width: 100%;
-  }
-
-  .input-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .date-input {
-    flex: 1;
-    min-width: 200px;
-    padding: 0.8rem;
-    border: 2px solid var(--border);
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-
-  .date-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
-  }
-
-  .search-button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background 0.2s;
-  }
-
-  .search-button:hover {
-    background: var(--primary-light);
-  }
-
-  .button-text {
-    display: inline;
-  }
-
-  .no-results {
-    text-align: center;
-    padding: 1.5rem;
-    background: #fff9f9;
-    border: 1px solid #ffebee;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 2rem auto;
-    color: var(--error);
-  }
-
-  .no-results i {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .no-results p {
-    margin: 0;
-  }
-
-  .results-container {
-    margin: 2rem 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .idioms-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .idioms-table th,
-  .idioms-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .idioms-table th {
-    background: var(--table-header);
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-  }
-
-  .idioms-table tr:hover {
-    background: var(--table-hover);
-  }
-
-  .idioms-table td:first-child {
-    font-weight: 600;
-  }
-
-  /* Responsive table */
-  @media (max-width: 768px) {
-    .input-group {
-      flex-direction: column;
-    }
-
-    .date-input,
-    .search-button {
-      width: 100%;
-    }
-
-    .button-text {
-      display: none;
-    }
-
-   
-
-    .idioms-table thead {
-      display: none;
-    }
-
-    .idioms-table tr {
-      display: block;
-      margin-bottom: 1rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0;
-    }
-
-    .idioms-table td {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem;
-      border-bottom: 1px dashed var(--border);
-    }
-
-    .idioms-table td:last-child {
-      border-bottom: none;
-    }
-
-    .idioms-table td::before {
-      content: attr(data-label);
-      font-weight: 600;
-      color: var(--primary);
-      margin-right: 1rem;
-    }
-  }
-
-  @media (max-width: 480px) {
+  <title>VocabiX - Date wise idioms</title>
+  <link rel="stylesheet" href="/home_page.css">
+  <link rel="stylesheet" href="/nav_bar.css">
+  </head>
+  <style>
     .idioms-container {
-      padding: 1rem 0.5rem;
+      padding: 2rem;
+      background-color: var(--color-gray-50);
+      color: var(--color-gray-900);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
     }
 
+    .idioms-container h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      border-left: 5px solid var(--color-primary);
+      padding-left: 0.8rem;
+    }
+
+    /* Heading */
     .page-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      border-left: 5px solid var(--color-primary);
+      padding-left: 0.8rem;
+    }
+
+    .letter-heading {
+      font-size: 2rem;
       margin: 1rem 0;
     }
 
+    /* Table Container */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      background: var(--color-white);
+    }
+
+    /* Table Base */
+    .words-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+      font-size: 0.95rem;
+    }
+
+    /* Header Cells */
+    .words-table th,
+    .words-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    /* Header Style */
+    .words-table th {
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Table Body */
+    .words-table td {
+      color: var(--color-gray-800);
+      vertical-align: top;
+      cursor: pointer;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    /* Zebra striping */
+    .words-table tr:nth-child(even) td {
+      background-color: #e0e7ff;
+    }
+
+    /* Hover Effect */
+    .words-table tr:hover td {
+      background-color: rgb(177, 195, 255);
+      transition: background 0.3s ease;
+    }
+
+    /* Empty Table State */
+    .no-words {
+      text-align: center;
+      padding: 3rem 1rem;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: 12px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .no-words i {
+      font-size: 3rem;
+      color: var(--color-secondary);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .no-words a {
+      color: var(--color-primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .search-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
     .date-input {
-      min-width: 100%;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--color-gray-300);
+      border-radius: 8px;
+      flex: 1 1 200px;
+      font-size: 1rem;
     }
 
-    .idioms-table td {
-      font-size: 0.9rem;
-      padding: 0.5rem;
+    .search-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--color-cyan);
+      color: var(--color-white);
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
     }
 
-    .no-results {
-      padding: 1rem;
+    .search-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
     }
 
-    .no-results i {
-      font-size: 1.5rem;
+    .no-words a:hover {
+      text-decoration: underline;
     }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .words-table thead {
+        display: none;
+      }
+
+      .words-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        background: var(--color-white);
+        border: 1px solid var(--color-gray-200);
+        border-radius: 10px;
+        padding: 0.75rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      }
+
+      .words-table td {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 0.8rem;
+        text-align: left;
+        border: none;
+      }
+
+      .words-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--color-gray-700);
+        margin-bottom: 0.3rem;
+      }
+
+      .page-title {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+
+  <body>
+    <!-- Mobile Menu Button -->
+
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <%- include('../partial/nav_bar', { currentPage: 'Phrases' }) %>
+        <!-- Main Content -->
+        <main class="main-content">
+
+          <%- include('../partial/header_nav_bar') %>
+            <div class="idioms-container">
+              <h1 class="page-title">Idioms by Date</h1>
+
+              <div class="search-container">
+                <input type="date" id="idiomDate" class="date-input">
+                <button id="searchBtn" class="search-btn">Search</button>
+              </div>
+
+              <div id="resultsContainer"></div>
+            </div>
+
+
+
+        </main>
+    </div>
+<script>
+async function getIdiomsByDate(date) {
+  try {
+    const res = await fetch(`/idioms-on-date?date=${encodeURIComponent(date)}`);
+    if (!res.ok) throw new Error('Network response was not ok');
+
+    const idioms = await res.json();
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = '';
+
+    if (!Array.isArray(idioms) || idioms.length === 0) {
+      container.innerHTML = `
+        <div class="no-words">
+          <i class="fas fa-book-open"></i>
+          <p>No idioms found for selected date</p>
+        </div>`;
+      return;
+    }
+
+    // Create a single table for all idioms
+    const tableWrapper = document.createElement('div');
+    tableWrapper.className = 'table-responsive';
+
+    const table = document.createElement('table');
+    table.className = 'words-table';
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Idiom</th>
+          <th>Meaning</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${idioms.map(i => `
+          <tr>
+            <td data-label="Idiom">${i.idiom}</td>
+            <td data-label="Meaning">${i.meaning}</td>
+            <td data-label="Example">${i.example || '-'}</td>
+          </tr>`).join('')}
+      </tbody>
+    `;
+
+    tableWrapper.appendChild(table);
+    container.appendChild(tableWrapper);
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById('resultsContainer').innerHTML = `
+      <div class="no-words">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Error loading idioms. Please try again.</p>
+      </div>`;
   }
-</style>
+}
+
+// Search button event
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const date = document.getElementById('idiomDate').value;
+  if (!date) return alert('Please select a date');
+  getIdiomsByDate(date);
+});
+
+// Set today's date on load and fetch idioms
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('idiomDate').value = today;
+  getIdiomsByDate(today);
+});
+</script>
 
 
-<%- include('../partial/nav_bar', { currentPage: 'idioms' }) %>
 
-<div class="idioms-container">
-  <h1 class="page-title">🗓️ Idioms Filtered by Date</h1>
 
-  <div class="search-container">
-    <form method="GET" action="/idioms-on-date" class="search-form">
-      <div class="input-group">
-        <input 
-          type="date" 
-          name="date" 
-          value="<%= selectedDate || '' %>" 
-          required
-          class="date-input"
-          aria-label="Select date to filter idioms"
-        />
-        <button type="submit" class="search-button">
-          <i class="fas fa-search"></i> <span class="button-text">Search</span>
-        </button>
-      </div>
-    </form>
-  </div>
+  </body>
 
-  <% if (idioms.length === 0 && selectedDate) { %>
-    <div class="no-results">
-      <i class="fas fa-exclamation-circle"></i>
-      <p>No idioms found for <strong><%= selectedDate %></strong></p>
-    </div>
-  <% } %>
-
-  <% if (idioms.length > 0) { %>
-    <div class="results-container">
-      <div class="table-responsive">
-        <table class="idioms-table">
-          <thead>
-            <tr>
-              <th>Idiom</th>
-              <th>Meaning</th>
-              <th>Example</th>
-              <th>Date Added</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% idioms.forEach(idiom => { %>
-              <tr>
-                <td data-label="Idiom"><%= idiom.idiom %></td>
-                <td data-label="Meaning"><%= idiom.meaning %></td>
-                <td data-label="Example"><%= idiom.example %></td>
-                <td data-label="Date"><%= idiom.date.toLocaleDateString() %></td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  <% } %>
-</div>
-
+  </html>

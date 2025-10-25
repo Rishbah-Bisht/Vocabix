@@ -1,399 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../partial/html_header') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Quiz – Squares & Cubes</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>VocabiX - Squares and Cubes</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    </head>
     <style>
-        /* Styles specific to this quiz page, using the root variables */
-        .quiz-layout {
-            display: grid;
-            grid-template-columns: 1fr;
+        .grid-container {
+            display: flex;
             gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        @media (min-width: 992px) {
-            .quiz-layout {
-                grid-template-columns: 3fr 1fr;
-            }
-        }
-
-        .quiz-controls {
-            display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
+        }
+
+    
+        .grid-column {
+            flex: 1;
+            min-width: 250px;
+            background: var(--color-white);
             padding: 1rem;
-            background-color: var(--card-color);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            margin: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .control-group {
-            display: flex;
-            gap: 0.5rem;
-            background-color: var(--input-bg);
-            border-radius: 8px;
-            padding: 0.5rem;
-        }
 
-        .control-btn {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-            background-color: transparent;
-            color: var(--text-light);
-        }
-
-        .control-btn.active {
-            background-color: var(--accent-color);
-            color: white;
-            box-shadow: 0 2px 8px rgba(163, 120, 233, 0.4);
-        }
-
-        .question-box {
-            font-size: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background-color: var(--input-bg);
-            border-radius: 8px;
-            font-weight: 600;
-            border-left: 4px solid var(--accent-color);
-        }
-
-        .stats-panel .stats-title {
-            font-size: 1.2rem;
-            font-weight: 600;
+        h2 {
             margin-bottom: 1rem;
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--input-bg);
-            padding-bottom: 0.5rem;
+            color: var(--color-primary);
+            font-weight: 600;
         }
 
-        .stat-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .stat-value {
-            font-weight: 700;
-            background-color: var(--input-bg);
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-        }
-
-        .progress-bar {
+        /* Tables */
+        table {
             width: 100%;
-            height: 10px;
-            background-color: var(--input-bg);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 0.5rem;
+            border-collapse: collapse;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-hover) 0%, var(--accent-color) 100%);
-            border-radius: 5px;
-            transition: width 0.4s ease;
+        table,
+        th,
+        td {
+            border: 1px solid var(--color-gray-200);
         }
 
-        .option.correct {
-            background-color: #9ae5b6;
-            /* Tailwind green-500 */
-            color: white;
-            border-color: #16a34a;
-            /* Tailwind green-600 */
-        }
-
-        .option.wrong {
-            background-color: #e55e5e91;
-            /* Tailwind red-500 */
-            color: white;
-            border-color: #b91c1c;
-            /* Tailwind red-700 */
-        }
-
-        .summary-card {
-            display: none;
-            /* Hidden by default */
+        th,
+        td {
+            padding: 0.5rem;
             text-align: center;
+            font-weight: 500;
+            color: var(--color-gray-700);
         }
 
-        .summary-card .icon {
-            font-size: 4rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
+        tr:nth-child(even) {
+            background-color: var(--color-gray-100);
         }
 
-        .mistakes-list {
-            list-style-type: none;
-            padding: 0;
+        /* Squares & Cubes highlight */
+        .squares-column td:nth-child(2) {
+            color: blue;
+            font-weight: 600;
             text-align: left;
         }
 
-        .mistake-item {
-            background-color: var(--input-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            border-left: 4px solid var(--error-text);
+        .cubes-column td:nth-child(2) {
+            color:rgb(0, 180, 0);
+            font-weight: 600;
+             text-align: left;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-container {
+                flex-direction: column;
+            }
         }
     </style>
-</head>
 
-<body>
-    <%- include('../partial/nav_bar', { currentPage: 'squars' }) %>
+    <body>
 
-        <div class="container">
-            <h1 class="page-title">Squares & Cubes Quiz</h1>
+        <div class="overlay" id="overlay"></div>
 
-            <div class="quiz-controls">
-                <div class="control-group">
-                    <button class="control-btn mode-btn active" onclick="setMode('square', this)">
-                        <i class="fas fa-square"></i> Squares
-                    </button>
-                    <button class="control-btn mode-btn" onclick="setMode('cube', this)">
-                        <i class="fas fa-cube"></i> Cubes
-                    </button>
-                </div>
-                <div class="control-group">
-                    <button class="control-btn order-btn active" onclick="setOrder('random', this)">
-                        <i class="fas fa-random"></i> Random
-                    </button>
-                    <button class="control-btn order-btn" onclick="setOrder('sequence', this)">
-                        <i class="fas fa-sort-numeric-down"></i> Sequential
-                    </button>
-                </div>
-            </div>
 
-            <div class="quiz-layout">
-                <main class="quiz-main card" id="quizMain">
-                    <div class="question-box" id="question">Loading...</div>
-                    <div class="options-grid" id="options"></div>
-                    <div id="feedback"></div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn" id="nextBtn" onclick="loadQuestion()" disabled>
-                            <i class="fas fa-arrow-right"></i> Next Question
-                        </button>
-                    </div>
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'Squar' }) %>
+                <!-- Main Content -->
+                <main class="main-content">
+                    <%- include('../partial/header_nav_bar') %>
+
+                        <div class="grid-container">
+                            <!-- Left Column: Squares -->
+                            <div class="grid-column squares-column">
+                                <h2>Squares (1-50)</h2>
+                                <table id="squares-table">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                            <!-- Right Column: Cubes -->
+                            <div class="grid-column cubes-column">
+                                <h2>Cubes (1-30)</h2>
+                                <table id="cubes-table">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
                 </main>
 
-                <aside class="quiz-sidebar">
-                    <div class="stats-panel card">
-                        <div class="stats-title"><i class="fas fa-chart-line"></i> Your Stats</div>
-                        <div class="stat-item">
-                            <span><i class="fas fa-question-circle"></i> Total Asked</span>
-                            <span class="stat-value" id="totalQuestions">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span><i class="fas fa-check-circle" style="color: var(--success-text);"></i> Correct</span>
-                            <span class="stat-value" id="correctAnswers">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span><i class="fas fa-times-circle" style="color: var(--error-text);"></i> Wrong</span>
-                            <span class="stat-value" id="wrongAnswers">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span><i class="fas fa-tasks"></i> Progress</span>
-                            <span class="stat-value" id="progressText">0%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
-                        </div>
-                    </div>
-                </aside>
-            </div>
 
-            <div class="summary-card card" id="summary">
-                <!-- Summary content will be injected here by JavaScript -->
-            </div>
         </div>
 
         <script>
-            const squares = Array.from({ length: 50 }, (_, i) => ({ num: i + 1, value: (i + 1) ** 2 }));
-            const cubes = Array.from({ length: 30 }, (_, i) => ({ num: i + 1, value: (i + 1) ** 3 }));
+            // Squares table 1-50
+            const squaresTableBody = document.querySelector('#squares-table tbody');
+            for (let i = 1; i <= 50; i++) {
+                const row = document.createElement('tr');
+                const cellNum = document.createElement('td');
+                const cellSquare = document.createElement('td');
 
-            let mode = 'square';
-            let order = 'random';
-            let dataset = [];
-            let index = 0;
-            let questionList = [];
-            let currentQuestion = null;
-            const wrongAnswers = [];
-            let correctCount = 0;
-            let wrongCount = 0;
+                cellNum.textContent = i;
+                cellSquare.textContent = i * i;
 
-            const questionEl = document.getElementById("question");
-            const optionsEl = document.getElementById("options");
-            const feedbackEl = document.getElementById("feedback");
-            const nextBtn = document.getElementById("nextBtn");
-            const summaryEl = document.getElementById("summary");
-            const totalQuestionsEl = document.getElementById("totalQuestions");
-            const correctAnswersEl = document.getElementById("correctAnswers");
-            const wrongAnswersEl = document.getElementById("wrongAnswers");
-            const progressBar = document.getElementById("progressBar");
-            const progressText = document.getElementById("progressText");
-            const quizMainEl = document.getElementById("quizMain");
-
-            function shuffle(arr) {
-                return arr.sort(() => Math.random() - 0.5);
+                row.appendChild(cellNum);
+                row.appendChild(cellSquare);
+                squaresTableBody.appendChild(row);
             }
 
-            function setMode(newMode, btn) {
-                mode = newMode;
-                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                resetQuiz();
+            // Cubes table 1-30
+            const cubesTableBody = document.querySelector('#cubes-table tbody');
+            for (let i = 1; i <= 30; i++) {
+                const row = document.createElement('tr');
+                const cellNum = document.createElement('td');
+                const cellCube = document.createElement('td');
+
+                cellNum.textContent = i;
+                cellCube.textContent = i * i * i;
+
+                row.appendChild(cellNum);
+                row.appendChild(cellCube);
+                cubesTableBody.appendChild(row);
             }
-
-            function setOrder(newOrder, btn) {
-                order = newOrder;
-                document.querySelectorAll('.order-btn').forEach(b => b.classList.remove('active'));
-                if (btn) btn.classList.add('active');
-                resetQuiz();
-            }
-
-            function updateStats() {
-                const totalInDataset = mode === 'square' ? 50 : 30;
-                const questionsAsked = correctCount + wrongCount;
-                totalQuestionsEl.textContent = questionsAsked;
-                correctAnswersEl.textContent = correctCount;
-                wrongAnswersEl.textContent = wrongCount;
-
-                const progress = totalInDataset > 0 ? (questionsAsked / totalInDataset) * 100 : 0;
-                progressBar.style.width = `${progress}%`;
-                progressText.textContent = `${Math.round(progress)}%`;
-            }
-
-            function resetQuiz() {
-                dataset = mode === 'square' ? squares.slice() : cubes.slice();
-                questionList = order === 'random' ? shuffle(dataset.slice()) : dataset.slice();
-                index = 0;
-                wrongAnswers.length = 0;
-                correctCount = 0;
-                wrongCount = 0;
-                summaryEl.style.display = 'none';
-                quizMainEl.style.display = 'block';
-                updateStats();
-                loadQuestion();
-            }
-
-            function loadQuestion() {
-                if (index >= questionList.length) {
-                    endQuiz();
-                    return;
-                }
-
-                optionsEl.innerHTML = '';
-                feedbackEl.innerHTML = '';
-                nextBtn.disabled = true;
-
-                currentQuestion = questionList[index];
-                index++;
-
-                const label = mode === 'square' ? '²' : '³';
-                questionEl.innerHTML = `${currentQuestion.num}<sup>${label}</sup> = ?`;
-
-                const correct = currentQuestion.value;
-                const options = new Set([correct]);
-                while (options.size < 4) {
-                    const range = correct > 1000 ? 500 : 100;
-                    const randomOffset = Math.floor(Math.random() * range) - (range / 2);
-                    let randomAnswer = correct + randomOffset;
-                    if (randomAnswer > 0 && randomAnswer !== correct) {
-                        options.add(randomAnswer);
-                    }
-                }
-
-                shuffle([...options]).forEach(opt => {
-                    const btn = document.createElement("div");
-                    btn.className = "option";
-                    btn.textContent = opt;
-                    btn.onclick = () => checkAnswer(opt, btn);
-                    optionsEl.appendChild(btn);
-                });
-
-                updateStats();
-            }
-
-            function checkAnswer(selected, btn) {
-                const correct = currentQuestion.value;
-                document.querySelectorAll(".option").forEach(o => o.onclick = null); // disable all options
-
-                if (selected === correct) {
-                    btn.classList.add("correct");
-                    feedbackEl.innerHTML = `<div class="success-message" style="margin-top: 1rem;">Correct!</div>`;
-                    correctCount++;
-                } else {
-                    btn.classList.add("wrong");
-                    feedbackEl.innerHTML = `<div class="error-message" style="margin-top: 1rem;">Incorrect. Correct answer was ${correct}.</div>`;
-                    wrongCount++;
-                    wrongAnswers.push({ question: currentQuestion, selected });
-                    document.querySelectorAll(".option").forEach(o => {
-                        if (parseInt(o.textContent) === correct) o.classList.add("correct");
-                    });
-                }
-
-                nextBtn.disabled = false;
-                updateStats();
-            }
-
-            function endQuiz() {
-                quizMainEl.style.display = 'none';
-                summaryEl.style.display = 'block';
-
-                const totalAnswered = correctCount + wrongCount;
-                const percentage = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
-
-                let mistakesHTML = '';
-                if (wrongAnswers.length > 0) {
-                    mistakesHTML = `
-                    <h4>Mistakes to Review</h4>
-                    <ul class="mistakes-list">
-                        ${wrongAnswers.map(w => {
-                        const label = w.question.num.toString().endsWith('3') ? '³' : '²';
-                        return `<li class="mistake-item">
-                                <strong>${w.question.num}<sup>${label}</sup>:</strong> 
-                                You answered <span style="color:var(--error-text);">${w.selected}</span>, 
-                                correct was <span style="color:var(--success-text);">${w.question.value}</span>.
-                            </li>`;
-                    }).join('')}
-                    </ul>
-                `;
-                } else {
-                    mistakesHTML = `<p style="color: var(--success-text);"><i class="fas fa-star"></i> Perfect score! No mistakes to review.</p>`;
-                }
-
-                summaryEl.innerHTML = `
-                <div class="icon"><i class="fas fa-trophy"></i></div>
-                <h2 class="page-title">Quiz Complete!</h2>
-                <h3>Your Score: ${percentage}%</h3>
-                <p>${correctCount} correct out of ${totalAnswered} questions.</p>
-                ${mistakesHTML}
-                <button class="btn" onclick="resetQuiz()" style="margin-top: 2rem;">
-                    <i class="fas fa-redo"></i> Try Again
-                </button>
-            `;
-            }
-
-            // Initialize the quiz
-            resetQuiz();
         </script>
-</body>
 
-</html>
+
+    </body>
+
+    </html>

@@ -111,20 +111,32 @@ router.get('/mcq-json', ensureAuth, async (req, res) => {
 });
 
 router.post('/add-word', ensureAuth, async (req, res) => {
-  const { word, meaning, sentence, date } = req.body;
   try {
-    await Word.create({
+    const { vocab } = req.body; // array from frontend
+
+    if (!vocab || !Array.isArray(vocab) || vocab.length === 0) {
+      return res.status(400).json({ message: 'No vocabulary data provided' });
+    }
+
+    // Add user ID and optional date to each vocab entry
+    const vocabData = vocab.map(item => ({
       User_id: req.session.userId,
-      word,
-      meaning,
-      sentence,
-      date: date ? new Date(date) : undefined
-    });
-    res.redirect('/day-wise-vocab');
+      word: item.word,
+      meaning: item.meaning,
+      sentence: item.sentence,
+      date: item.date ? new Date(item.date) : undefined
+    }));
+
+    // Insert all vocab at once
+    await Word.insertMany(vocabData);
+
+    res.redirect('/words-on-date');
   } catch (error) {
-    res.status(500).send('Error adding word');
+    console.error(error);
+    res.status(500).json({ message: 'Server error while adding vocabulary' });
   }
 });
+
 
 
 router.get("/percentage", ensureAuth, async (req, res) => {

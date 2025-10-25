@@ -1,248 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vocabix Navbar</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  :root {
-      --card-color: #ffffff;
-      --text-color: #333;
-      --text-light: #666;
-      --accent-color: #8e44ad;
-      --border-color: #e0e0e0;
-      --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
+<aside class="sidebar" id="sidebar">
+    <button class="close-btn" id="closeBtn" aria-label="Close menu">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
 
-  body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-  }
-
-  /* Navbar Styles */
-  .navbar {
-      background-color: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      padding: 0 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 70px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid var(--border-color);
-  }
-
-  .nav-brand {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'Grand Hotel', cursive;
-  }
-
-  .nav-brand i {
-      transition: transform 0.3s ease;
-  }
-
-  .nav-brand:hover i {
-      transform: rotate(10deg);
-  }
-
-  .nav-links {
-      display: flex;
-      gap: 0.5rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-  }
-
-  .nav-links a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: var(--text-light);
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: color 0.3s ease, background-color 0.3s ease;
-  }
-
-  .nav-links a:hover {
-      color: var(--accent-color);
-      background-color: rgba(142, 68, 173, 0.05);
-  }
-
-  .nav-links a.active {
-      background-color: var(--accent-color);
-      color: white;
-      font-weight: 600;
-  }
-
-  .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-  }
-
-  .profile {
-      width: 45px;
-      height: 45px;
-      border: 2px solid var(--accent-color);
-      border-radius: 50%;
-      overflow: hidden;
-      display: block;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .profile img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-  }
-
-  .profile:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
-  }
-
-  .nav-toggle {
-      display: none;
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      color: var(--text-color);
-      cursor: pointer;
-      z-index: 1001;
-  }
-
-  /* Mobile Styles */
-  @media (max-width: 992px) {
-      .nav-links {
-          position: fixed;
-          top: 0;
-          right: -100%;
-          width: 300px;
-          height: 100vh;
-          padding-top: 80px;
-          background-color: var(--card-color);
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.5rem;
-          transition: right 0.4s ease-in-out;
-          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-          border-left: 1px solid var(--border-color);
-      }
-
-      .nav-links.active {
-          right: 0;
-      }
-
-      .nav-links li {
-          width: 100%;
-          padding: 0 1.5rem;
-      }
-
-      .nav-links a {
-          width: 100%;
-          padding: 1rem;
-      }
-
-      .nav-toggle {
-          display: block;
-      }
-  }
-
-  /* Overlay */
-  #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
-
-  #overlay.active {
-      opacity: 1;
-      visibility: visible;
-  }
-</style>
-</head>
-<body>
-
-<div id="overlay"></div>
-
-<nav class="navbar">
-    <a href="/home" class="nav-brand">
-        <i class="fas fa-book-reader"></i>
-        <span>Vocabix</span>
-    </a>
-
-    <ul class="nav-links" id="navLinks">
-        <li><a href="/home" class="<%= currentPage === 'home' ? 'active' : '' %>"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="/squares" class="<%= currentPage === 'squars' ? 'active' : '' %>"><i class="fas fa-cube"></i> Squares & Cubes</a></li>
-        <li><a href="/percentage" class="<%= currentPage === 'percentage' ? 'active' : '' %>"><i class="fas fa-cube"></i> percentage</a></li>
-        <li><a href="/vocabs" class="<%= currentPage === 'allWords' ? 'active' : '' %>"><i class="fas fa-book"></i> Vocabulary</a></li>
-        <li><a href="/idioms" class="<%= currentPage === 'idioms' ? 'active' : '' %>"><i class="fas fa-book-reader"></i> Idioms</a></li>
-        <!-- <li><a href="/add-word" class="<%= currentPage === 'addWord' ? 'active' : '' %>"><i class="fas fa-plus-circle"></i> Add Word</a></li>
-        <li><a href="/add-idiom" class="<%= currentPage === 'addidiom' ? 'active' : '' %>"><i class="fas fa-plus-square"></i> Add Idiom</a></li>
-        <li><a href="/mcq-idioms" class="<%= currentPage === 'idiomsMCQ' ? 'active' : '' %>"><i class="fas fa-question-circle"></i> MCQ Idiom</a></li>
-        <li><a href="/mcq-vocab" class="<%= currentPage === 'mcq-vocab' ? 'active' : '' %>"><i class="fas fa-question"></i> MCQ Vocab</a></li> -->
-        <li><a href="/logout" class="<%= currentPage === 'logout' ? 'active' : '' %>"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
-
-    <div class="nav-actions">
-        <a href="/profile" class="profile">
-            <img src="/uploads/Profile/Profile.png" alt="Profile">
+    <div class="sidebar-top">
+        <a href="/home" class="sidebar-logo">
+            <img src="/uploads/Profile/logo.png">
+            <p>VocabiX</p>
         </a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
+
+        <nav class="nav">
+            <a href="/home" class="nav-link <%= currentPage === 'home' ? 'active' : '' %>">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2a1 1 0 01-1-1v-4z">
+                    </path>
+                </svg>
+                <p>Home</p>
+            </a>
+
+            <a href="/squares" class="nav-link <%= currentPage === 'Squar' ? 'active' : '' %>">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48" height="48">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 16V8a2 2 0 00-1-1.732l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.732l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM12 2v20M3.5 8l8.5 5 8.5-5M3.5 16l8.5-5 8.5 5">
+                    </path>
+                </svg>
+                <p>Squares</p>
+            </a>
+
+            <a href="/vocabs" class="nav-link <%= currentPage === 'vocabs' ? 'active' : '' %>">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                </svg>
+                <p>Vocabulary</p>
+            </a>
+
+            <a href="/idioms" class="nav-link <%= currentPage === 'Phrases' ? 'active' : '' %>">
+                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                            </path>
+                                        </svg>
+                <p>Phrases</p>
+            </a>
+
+            <a href="#grid" class="nav-link <%= currentPage === 'percentage' ? 'active' : '' %>">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                    </path>
+                </svg>
+                <p>Percentage</p>
+            </a>
+        </nav>
     </div>
-</nav>
 
-<script>
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-const navToggleIcon = navToggle.querySelector('i');
-const overlay = document.getElementById('overlay');
+    <div class="sidebar-profile">
+        <a href="#profile" class="profile-link">
+            <img src="https://placehold.co/40x40/E0FDFB/1C2135?text=<% %>" alt="Profile" class="profile-img">
+            <p>Profile</p>
+        </a>
+    </div>
+</aside>
 
-function toggleMenu() {
-    const isActive = navLinks.classList.toggle('active');
-    overlay.classList.toggle('active');
-    document.body.style.overflow = isActive ? 'hidden' : '';
-    navToggle.setAttribute('aria-expanded', isActive);
-    navToggleIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-}
-
-navToggle.addEventListener('click', toggleMenu);
-
-// Close menu on link click
-navLinks.addEventListener('click', () => {
-    if (navLinks.classList.contains('active')) toggleMenu();
-});
-
-// Close menu on overlay click
-overlay.addEventListener('click', toggleMenu);
-
-// Reset menu on resize
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 992 && navLinks.classList.contains('active')) {
-        toggleMenu();
-    }
-});
-</script>
-
-</body>
-</html>

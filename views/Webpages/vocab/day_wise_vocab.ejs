@@ -1,527 +1,296 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date-wise Vocabulary Filter</title>
-   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-/* ===== Global Theme Variables & Setup ===== */
-:root {
-    --primary: #673ab7;
-    --primary-light: #7e57c2;
-    --primary-dark: #512da8;
-    --text-dark: #2c3e50;
-    --text-medium: #555;
-    --text-light: #777;
-    --border: #e0e0e0;
-    --bg-light: #f5f5f5;
-    --card-color: #ffffff;
-    --input-bg: #f9f9f9;
-    --table-header: #ede7f6;
-    --table-even: #f9f9f9;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    --error: #e74c3c;
-    --error-text: #e74c3c;
-    --accent-color: #7e57c2;
-    --accent-hover: #673ab7;
-    --transition: all 0.3s ease;
-}
+<%- include('../partial/html_header') %>
 
-body {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-}
+<title>VocabiX - Day Wise Vocabulary</title>
+<link rel="stylesheet" href="/home_page.css">
+<link rel="stylesheet" href="/nav_bar.css">
 
-/* ===== Main Page Layout & Header ===== */
+<style>
 .vocabulary-container {
-    max-width: 1100px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+  padding: 2rem;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
 }
-
-.page-header {
-    margin-bottom: 2rem;
+.vocabulary-container h1{
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+   border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
 }
-
+/* Heading */
 .page-title {
-    font-size: 2.5rem;
-    color: var(--primary-dark);
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+   border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
+.letter-heading{
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+/* Table Container */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  background: var(--color-white);
 }
 
-/* ===== Search Controls ===== */
+/* Table Base */
+.words-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  font-size: 0.95rem;
+}
+
+/* Header Cells */
+.words-table th,
+.words-table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+/* Header Style */
+.words-table th {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Table Body */
+.words-table td {
+  color: var(--color-gray-800);
+  vertical-align: top;
+  cursor: pointer;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+/* Zebra striping */
+.words-table tr:nth-child(even) td {
+  background-color: #e0e7ff;
+}
+
+/* Hover Effect */
+.words-table tr:hover td {
+  background-color: rgb(177, 195, 255);
+  transition: background 0.3s ease;
+}
+
+/* Empty Table State */
+.no-words {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.no-words i {
+  font-size: 3rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.no-words a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
 .search-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    background-color: var(--card-color);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .date-input {
-    padding: 10px 14px;
-    font-size: 1rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    flex: 1;
-    min-width: 200px;
-    background-color: var(--input-bg);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 8px;
+  flex: 1 1 200px;
+  font-size: 1rem;
 }
 
 .search-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: var(--primary-light);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-cyan);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .search-btn:hover {
-    background: var(--primary-dark);
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.no-words a:hover {
+  text-decoration: underline;
 }
 
-/* ===== Results Display ===== */
-.results-container {
-    margin-top: 2rem;
-}
-
-.date-section {
-    background-color: var(--card-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    border: 1px solid var(--border);
-}
-
-.date-heading {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--primary-dark);
-    background-color: var(--table-header);
-    border-bottom: 1px solid var(--border);
-}
-
-.no-results {
-    text-align: center;
-    padding: 3rem 1rem;
-    margin-top: 2rem;
-    background-color: var(--card-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    color: var(--text-light);
-}
-
-.no-results i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--primary-light);
-}
-
-.no-results p {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-/* ===== Desktop Table Styling ===== */
-.words-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.words-table th,
-.words-table td {
-    padding: 1rem 1.5rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-}
-
-.words-table thead tr {
-    background-color: var(--table-header);
-}
-
-.words-table th {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--primary-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.words-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.words-table tbody tr:nth-child(even) {
-    background-color: var(--table-even);
-}
-
-.words-table tbody tr:hover {
-    background-color: var(--table-header);
-}
-
-.words-table td.word-cell {
-    font-weight: 600;
-    color: var(--primary-dark);
-    font-size: 1.1rem;
-}
-
-.words-table td.meaning-cell {
-    color: var(--text-medium);
-}
-
-.words-table td.sentence-cell {
-    color: var(--text-light);
-    font-style: italic;
-    line-height: 1.5;
-}
-
-
-/* ===== QUIZ-SPECIFIC STYLES (Included from your code) ===== */
-.quiz-layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.quiz-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background-color: var(--card-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-}
-
-.control-group {
-    display: flex;
-    gap: 0.5rem;
-    background-color: var(--input-bg);
-    border-radius: 8px;
-    padding: 0.5rem;
-}
-
-.control-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: var(--transition);
-    background-color: transparent;
-    color: var(--text-light);
-}
-
-.control-btn.active {
-    background-color: var(--accent-color);
-    color: white;
-    box-shadow: 0 2px 8px rgba(163, 120, 233, 0.4);
-}
-
-.question-box {
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: var(--input-bg);
-    border-radius: 8px;
-    font-weight: 600;
-    border-left: 4px solid var(--accent-color);
-}
-
-.stats-panel .stats-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--accent-color);
-    border-bottom: 2px solid var(--input-bg);
-    padding-bottom: 0.5rem;
-}
-
-.stat-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-}
-
-.stat-value {
-    font-weight: 700;
-    background-color: var(--input-bg);
-    padding: 0.25rem 0.75rem;
-    border-radius: 6px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background-color: var(--input-bg);
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 0.5rem;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-hover) 0%, var(--accent-color) 100%);
-    border-radius: 5px;
-    transition: width 0.4s ease;
-}
-
-.option.correct {
-    background-color: #9ae5b6;
-    color: white;
-    border-color: #16a34a;
-}
-
-.option.wrong {
-    background-color: #e55e5e91;
-    color: white;
-    border-color: #b91c1c;
-}
-
-.summary-card {
-    display: none;
-    text-align: center;
-}
-
-.summary-card .icon {
-    font-size: 4rem;
-    color: var(--accent-color);
-    margin-bottom: 1rem;
-}
-
-.mistakes-list {
-    list-style-type: none;
-    padding: 0;
-    text-align: left;
-}
-
-.mistake-item {
-    background-color: var(--input-bg);
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    border-left: 4px solid var(--error-text);
-}
-
-
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Responsive Card View for Mobile Table */
+/* Responsive Design */
 @media (max-width: 768px) {
-    .words-table thead {
-        display: none;
-    }
+  .words-table thead {
+    display: none;
+  }
 
-    .words-table,
-    .words-table tbody,
-    .words-table tr,
-    .words-table td {
-        display: block;
-        width: 100%;
-    }
+  .words-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 10px;
+    padding: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  }
 
-    .date-section {
-        background-color: transparent;
-        border: none;
-        box-shadow: none;
-    }
+  .words-table td {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border: none;
+  }
 
-    .words-table tr {
-        margin-bottom: 1.5rem;
-        border-radius: 8px;
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
-        background-color: var(--card-color);
-        padding: 1rem;
-    }
+  .words-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: 0.3rem;
+  }
 
-    .words-table td {
-        padding: 0;
-        border: none;
-        background-color: transparent;
-        margin-bottom: 1rem;
-        text-align: left;
-    }
-    
-    .words-table td:last-child {
-        margin-bottom: 0;
-    }
-
-    .words-table td::before {
-        content: attr(data-label);
-        display: block;
-        font-weight: 700;
-        color: var(--primary-dark);
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        margin-bottom: 0.25rem;
-    }
-    
-    .words-table td.word-cell {
-        font-size: 1.2rem;
-    }
-
-    /* Quiz Layout on Mobile */
-    .quiz-layout {
-        grid-template-columns: 1fr;
-    }
-    .quiz-controls {
-        flex-direction: column;
-    }
+  .page-title {
+    font-size: 1.6rem;
+  }
 }
+</style>
 
-/* Larger Desktop Quiz Layout */
-@media (min-width: 992px) {
-    .quiz-layout {
-        grid-template-columns: 3fr 1fr;
-    }
-}
-
-
-/* Small Screen Search Controls */
-@media (max-width: 600px) {
-    .search-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .date-input, .search-btn {
-        width: 100%;
-        margin: 0;
-    }
-}
-
-  </style>
-</head>
 <body>
-  <%- include('../partial/nav_bar', { currentPage: 'allWords' }) %>
+  <div class="overlay" id="overlay"></div>
 
-  <div class="vocabulary-container">
-    <div class="page-header">
-      <h1 class="page-title"><i class="fas fa-calendar-day"></i> Filter by Date</h1>
-    </div>
+  <div class="main-container">
+    <%- include('../partial/nav_bar', { currentPage: 'vocabs' }) %>
 
-    <div class="search-container">
-      <input type="date" id="vocabDate" class="date-input" aria-label="Select date to filter vocabulary"/>
-      <button class="search-btn" id="searchBtn">
-        <i class="fas fa-search"></i>
-        <span>Search</span>
-      </button>
-    </div>
+    <main class="main-content">
+      <%- include('../partial/header_nav_bar') %>
 
-    <div id="resultsContainer" class="results-container"></div>
+      <div class="vocabulary-container">
+        <div class="page-header">
+          <h1 class="page-title"><i class="fas fa-calendar-day"></i> Filter by Date</h1>
+        </div>
+
+        <div class="search-container">
+          <input type="date" id="vocabDate" class="date-input" aria-label="Select date to filter vocabulary" />
+          <button class="search-btn" id="searchBtn">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+          </button>
+        </div>
+
+        <div id="resultsContainer" class="results-container"></div>
+      </div>
+    </main>
   </div>
 
-  <script>
-    async function getVocabByDate(date) {
-      try {
-        const res = await fetch(`/words-on-date?date=${encodeURIComponent(date)}`);
-        if (!res.ok) throw new Error('Network response was not ok');
+<script>
+async function getVocabByDate(date) {
+  try {
+    const res = await fetch(`/words-on-date?date=${encodeURIComponent(date)}`);
+    if (!res.ok) throw new Error('Network response was not ok');
 
-        const words = await res.json();
-        const container = document.getElementById('resultsContainer');
-        container.innerHTML = '';
+    const words = await res.json();
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = '';
 
-        if (!Array.isArray(words) || words.length === 0) {
-          container.innerHTML = `
-            <div class="no-results">
-              <i class="fas fa-book"></i>
-              <p>No vocabulary found for selected date</p>
-            </div>`;
-          return;
-        }
-
-        const dateObj = new Date(date);
-        const dateStr = dateObj.toLocaleDateString(undefined, {
-          year: 'numeric', month: 'long', day: 'numeric'
-        });
-
-        const section = document.createElement('div');
-        section.className = 'date-section';
-
-        const heading = document.createElement('div');
-        heading.className = 'date-heading';
-        heading.innerHTML = `<i class="fas fa-calendar-check"></i> <span>Vocabulary for ${dateStr}</span>`;
-        section.appendChild(heading);
-
-        const table = document.createElement('table');
-        table.className = 'words-table';
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Vocabulary</th>
-              <th>Meaning</th>
-              <th>Example Sentence</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${words.map(word => `
-              <tr>
-                <td class="word-cell" data-label="Word">${word.word}</td>
-                <td class="meaning-cell" data-label="Meaning">${word.meaning}</td>
-                <td class="sentence-cell" data-label="Example">${word.sentence || '-'}</td>
-              </tr>
-            `).join('')}
-          </tbody>`;
-        section.appendChild(table);
-        container.appendChild(section);
-
-      } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('resultsContainer').innerHTML = `
-          <div class="no-results">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Error loading vocabulary. Please try again.</p>
-          </div>`;
-      }
+    if (!Array.isArray(words) || words.length === 0) {
+      container.innerHTML = `
+        <div class="no-words">
+          <i class="fas fa-book"></i>
+          <p>No vocabulary found for selected date</p>
+        </div>`;
+      return;
     }
 
-    document.getElementById('searchBtn').addEventListener('click', () => {
-      const date = document.getElementById('vocabDate').value;
-      if (!date) {
-        alert('Please select a date');
-        return;
-      }
-      getVocabByDate(date);
-    });
+    // Create table
+    const section = document.createElement('div');
+    section.className = 'letter-section';
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('vocabDate').value = today;
-    });
-  </script>
+    const heading = document.createElement('div');
+    heading.className = 'letter-heading';
+    heading.textContent = `Vocabulary on ${new Date(date).toLocaleDateString()}`;
+    section.appendChild(heading);
+
+    const tableWrapper = document.createElement('div');
+    tableWrapper.className = 'table-responsive';
+
+    const table = document.createElement('table');
+    table.className = 'words-table';
+
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Vocabulary</th>
+          <th>Meaning</th>
+          <th>Example Sentence</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${words.map(word => `
+          <tr>
+            <td data-label="Word">${word.word}</td>
+            <td data-label="Meaning">${word.meaning}</td>
+            <td data-label="Example">${word.sentence || '-'}</td>
+          </tr>`).join('')}
+      </tbody>`;
+
+    tableWrapper.appendChild(table);
+    section.appendChild(tableWrapper);
+    container.appendChild(section);
+
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById('resultsContainer').innerHTML = `
+      <div class="no-words">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Error loading vocabulary. Please try again.</p>
+      </div>`;
+  }
+}
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const date = document.getElementById('vocabDate').value;
+  if (!date) {
+    alert('Please select a date');
+    return;
+  }
+  getVocabByDate(date);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('vocabDate').value = today;
+    getVocabByDate(today);
+});
+</script>
+<script src="/nav_bar.js"></script>
 </body>
 </html>
