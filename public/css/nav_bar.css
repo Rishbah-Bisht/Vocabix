@@ -263,42 +263,56 @@
 }
 
 
-.social{
-    padding: .5rem;
+.social {
+    padding: 0.6rem;
     color: rgb(32, 32, 32);
-    background-color: #d5d6d600;
-    border-radius: .5rem;
-  box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
-transition: all 2s ease 0s;
+    background-color: rgba(213, 214, 214, 0.2); /* semi-transparent for blur */
+    border-radius: 0.3rem;
+   padding-bottom: .8rem;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(8px); /* blur effect */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
+
 }
 
-.social.instagram { 
-     color:hsla(335, 98%, 43%, 0.67);
-     /* background: linear-gradient(128deg, #ffffffc5, hsla(335, 98%, 43%, 0.67), #ffffffc5); */
-   
-} 
-.social.facebook  {
-     color:#006effa1;
-     /* background: linear-gradient(128deg, #ffffffc5, #006effa1, #ffffffc5); */
-    
-}   
-.social.snapchat  { 
-     color:#39460099;
-      /* background: linear-gradient(128deg, #ffffffc5, #d0ff0199, #ffffffc5); */
- 
+/* Instagram */
+.social.instagram {
+    color: hsl(0, 0%, 100%);
+    background: rgba(255, 0, 100, 0.2); /* semi-transparent overlay for blur */
+    background: linear-gradient(
+        180deg, 
+        hsla(336, 100%, 51%, 0.782),
+        rgba(255, 255, 255, 0)
+      
+    );
 }
-.social.instagram:hover { 
-      color: rgb(255, 255, 255);
-background: linear-gradient(128deg, #ffffffc5, hsla(335, 98%, 43%, 0.67), #ffffffc5);
-   
-} 
-.social.facebook:hover  {
-      color: rgb(255, 255, 255);
-   background: linear-gradient(128deg, #ffffffc5, #006effa1, #ffffffc5);
-    
-}   
-.social.snapchat:hover  { 
-      color: rgb(32, 32, 32);
-      background: linear-gradient(128deg, #d0ff0199, #ffffffc5,#d0ff0199);
+.social i{
+    margin-right: .2rem;
+}
+/* Facebook */
+.social.facebook {
+    color: #ffffff;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 110, 255, 0.782),
+        rgba(255, 255, 255, 0)
+      
+    );
+}
+
+/* Snapchat */
+.social.snapchat {
+    color: rgb(0, 0, 0);
+    background: linear-gradient(
+        180deg,
+        rgba(208, 255, 1, 0.782),
+        rgba(255, 255, 255, 0)
+       
+    );
+}
+
+.social.snapchat i { 
+   font-size: 1rem;
+   font-weight: 600;
  
 }

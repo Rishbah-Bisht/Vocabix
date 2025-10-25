@@ -1,0 +1,155 @@
+<%- include('../partial/html_header') %>
+
+    <title>VocabiX - Table</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    </head>
+<style>
+    .tables-container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .page-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .tables-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .table-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.5rem;
+        border-radius: 5px;
+        color: rgb(255, 255, 255);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .table-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+    
+    .table-header {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-align: center;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
+        padding-bottom: 0.5rem;
+    }
+    
+    .table-row {
+        display: flex;
+        justify-content: space-around;
+        padding: .7rem 0;
+        font-size: 1.1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    
+    .table-row:last-child {
+        border-bottom: none;
+    }
+    
+    .table-row span:first-child {
+        font-weight: 500;
+    }
+    
+    .table-row span:last-child {
+        font-weight: 700;
+        padding: 0.1rem 0.5rem;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .tables-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        
+        .table-card {
+            padding: 1rem;
+        }
+    }
+</style>
+
+    <body>
+        <!-- Mobile Menu Button -->
+
+
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'table' }) %>
+                <!-- Main Content -->
+                <main class="main-content">
+
+                    <%- include('../partial/header_nav_bar') %>
+<div class="tables-container">
+    <div class="tables-grid" id="tablesGrid"></div>
+</div>
+                </main>
+        </div>
+
+<script>
+    const tablesGrid = document.getElementById('tablesGrid');
+    
+    // Generate gradient colors for variety
+const gradients = [
+    'linear-gradient(64deg, rgb(34 34 34) 0%, rgb(93 95 100) 100%)',  // Light Grey to Soft Blue Grey
+];
+
+
+    
+    // Generate tables from 1 to 50
+    for (let i = 1; i <= 50; i++) {
+        const tableCard = document.createElement('div');
+        tableCard.className = 'table-card';
+        
+        // Assign gradient color (cycle through gradients array)
+        tableCard.style.background = gradients[i % gradients.length];
+        
+        // Create header
+        const header = document.createElement('div');
+        header.className = 'table-header';
+        header.textContent = `Table of ${i}`;
+        tableCard.appendChild(header);
+        
+        // Generate table rows (1 to 10)
+        for (let j = 1; j <= 10; j++) {
+            const row = document.createElement('div');
+            row.className = 'table-row';
+            
+            const equation = document.createElement('span');
+            equation.textContent = `${i} × ${j}`;
+            
+            const result = document.createElement('span');
+            result.textContent = i * j;
+            
+            row.appendChild(equation);
+            row.appendChild(result);
+            tableCard.appendChild(row);
+        }
+        
+        tablesGrid.appendChild(tableCard);
+    }
+</script>
+    </body>
+
+    </html>

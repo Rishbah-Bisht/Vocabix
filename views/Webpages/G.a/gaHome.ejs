@@ -1,0 +1,205 @@
+<%- include('../partial/html_header') %>
+
+    <title>VocabiX - Phrase Home</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    </head>
+    <style>
+        /* Dashboard Container */
+        .dashboard {
+            padding: 2rem;
+            background: var(--color-gray-50);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Header */
+        .dashboard header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            max-width: 1300px;
+            grid-template-columns: repeat(3, minmax(300px, 1fr));
+
+            gap: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Card */
+        .option-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-100);
+            border-radius: var(--radius-3xl);
+            box-shadow: var(--shadow-xl);
+            padding: 1.5rem;
+            display: flex;
+            text-decoration: none;
+            flex-direction: column;
+            gap: 1.25rem;
+            transition: all var(--transition-normal) ease;
+        }
+
+        .option-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Card Icon */
+        .option-card .icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 1rem;
+            display: flex;
+            color: black;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-card .icon svg {
+            width: 32px;
+            color: black;
+            height: 32px;
+        }
+
+        /* Icon Glow Variants */
+        .icon-cyan {
+            background-color: var(--color-glow-cyan);
+            box-shadow: 0 0 20px 10px var(--color-glow-cyan);
+        }
+
+        .icon-cyan svg {
+            color: red;
+        }
+
+        .icon-green {
+            color: white;
+            background-color: var(--color-glow-green);
+            box-shadow: 0 0 20px 10px var(--color-glow-green);
+        }
+
+        .icon-green svg {
+            color: var(--color-green);
+        }
+
+        .icon-blue {
+            background-color: var(--color-glow-blue);
+            box-shadow: 0 0 20px 10px var(--color-glow-blue);
+        }
+
+        .icon-blue svg {
+            color: var(--color-blue);
+        }
+
+        /* Card Title */
+        .option-card .option-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            text-align: left;
+        }
+
+        /* Card Button */
+        .option-card .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: black;
+            color: var(--color-white);
+            transition: all 0.3s ease;
+        }
+
+
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <body>
+        <!-- Mobile Menu Button -->
+
+
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'G.A' }) %>
+                <!-- Main Content -->
+                <main class="main-content">
+
+                    <%- include('../partial/header_nav_bar') %>
+                        <div class="dashboard">
+                            <header>
+                                <h1>General Awarness</h1>
+                            </header>
+
+                            <div class="options-grid">
+
+                                <a href="/General-Awarness/Date-Wise" class="option-card daywise-card">
+                                    <div class="icon icon-cyan">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48"
+                                            height="48">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <h2 class="option-title">General Awarness</h2>
+                                    <p>Words Refresh Daily</p>
+                                    <span class="btn btn-cyan"><i class="fas fa-list-ol"></i> Take Quiz</span>
+                                </a>
+
+                                <!-- A–Z All Vocabulary -->
+                                <a href="/General-Awarness/All-News" class="option-card allvocab-card">
+                                    <div class="icon icon-blue">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48"
+                                            height="48">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 20h9M12 4h9M3 6h18M3 18h18M3 6v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <h2 class="option-title">All General Awarness</h2>
+                                    <p>Explore Full Collections</p>
+                                    <span class="btn btn-blue"><i class="fas fa-search"></i> Explore Now</span>
+                                </a>
+
+                                <!-- Add New Word -->
+                                <a href="/General-Awarness/Add" class="option-card new-word-card">
+                                    <div class="icon icon-green">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48"
+                                            height="48">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                    </div>
+                                    <h2 class="option-title">Add New Idoms and Phrase</h2>
+                                    <p>Add Idoms and Phrase to Your Collection</p>
+                                    <span class="btn btn-green"><i class="fas fa-plus"></i> Add Word</span>
+                                </a>
+
+                            </div>
+                        </div>
+                </main>
+        </div>
+
+<script src="/nav_bar.js"></script>
+    </body>
+
+    </html>

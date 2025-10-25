@@ -1,0 +1,249 @@
+<%- include('../partial/html_header') %>
+
+<title>VocabiX - Home</title>
+<link rel="stylesheet" href="/home_page.css">
+<link rel="stylesheet" href="/nav_bar.css">
+</head>
+
+<style>
+/* ======= Base Container ======= */
+.container {
+    padding: 2rem;
+    background-color: var(--color-gray-50);
+    color: var(--color-gray-900);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+}
+
+/* ======= Heading ======= */
+.container h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    border-left: 5px solid var(--color-primary);
+    padding-left: 0.8rem;
+}
+
+/* ======= Filter Box ======= */
+.filter-box {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-box label {
+    font-weight: 600;
+    color: var(--color-gray-800);
+}
+
+.filter-box select {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-gray-300);
+    background: var(--color-gray-50);
+    font-size: 0.95rem;
+    color: var(--color-gray-900);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.filter-box select:focus {
+    border-color: var(--color-primary);
+    background: var(--color-white);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* ======= Genre Blocks ======= */
+.genre-block {
+    background: var(--color-white);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.75rem;
+    border-left: 5px solid var(--color-primary);
+}
+
+.genre-block h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+/* ======= Table ======= */
+.genre-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.genre-table th, .genre-table td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+}
+
+.genre-table th {
+    background: var(--color-primary);
+    color: white;
+}
+
+.genre-table tr:nth-child(even) {
+    background: #e0e7ff;
+}
+
+.genre-table tr:hover {
+    background: #e0e7ff;
+    transition: all 0.2s ease;
+}
+
+/* ======= No Data ======= */
+#sentenceList p {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 12px;
+    color: var(--color-gray-600);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ======= Responsive ======= */
+@media (max-width: 768px) {
+    .container h1 { font-size: 1.6rem; }
+    .filter-box { flex-direction: column; align-items: flex-start; }
+    .filter-box select { width: 100%; }
+    .genre-block { padding: 1rem; }
+    .genre-block h2 { font-size: 1.2rem; }
+}
+</style>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <%- include('../partial/nav_bar', { currentPage: 'G.A' }) %>
+        <!-- Main Content -->
+        <main class="main-content">
+            <%- include('../partial/header_nav_bar') %>
+            <div class="container">
+                <h1>All General Awareness Sentences</h1>
+
+                <!-- Genre Filter -->
+                <div class="filter-box">
+                    <label for="genreFilter">Filter by Genre:</label>
+                    <select id="genreFilter">
+                        <option value="">All</option>
+                        <option value="Appointment">Appointment</option>
+                        <option value="BookAuthor">Book & Author</option>
+                        <option value="Defense">Defense</option>
+                        <option value="NewCommittee">New Committee</option>
+                        <option value="MOU">MOU</option>
+                        <option value="Obituary">Obituary</option>
+                        <option value="ReportIndex">Report / Index</option>
+                        <option value="BankingFinanceEco">Banking / Finance / Economy</option>
+                        <option value="Merger">Merger</option>
+                        <option value="NationalNews">National News</option>
+                        <option value="InternationalNews">International News</option>
+                        <option value="GovernmentScheme">Government Scheme</option>
+                        <option value="Festival">Festival</option>
+                        <option value="Sports">Sports</option>
+                        <option value="ScienceTechnology">Science & Technology</option>
+                        <option value="Place">Place</option>
+                        <option value="Inauguration">Inauguration</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Ecology">Ecology</option>
+                        <option value="StateNews">State News</option>
+                        <option value="SummitEvent">Summit / Event</option>
+                        <option value="Days">Days</option>
+                    </select>
+                </div>
+
+                <!-- Sentence List -->
+                <div id="sentenceList">
+                    <% if (Object.keys(grouped).length === 0) { %>
+                        <p>No sentences found.</p>
+                    <% } else { %>
+                        <% Object.keys(grouped).forEach(genre => { %>
+                            <div class="genre-block" data-genre="<%= genre %>">
+                                <h2>
+                                    <% 
+                                        const genreNames = {
+                                            "Appointment": "Appointment",
+                                            "BookAuthor": "Book & Author",
+                                            "Defense": "Defense",
+                                            "NewCommittee": "Committee",
+                                            "MOU": "MOU",
+                                            "Obituary": "Obituary",
+                                            "ReportIndex": "Report / Index",
+                                            "BankingFinanceEco": "Banking / Finance / Economy",
+                                            "Merger": "Merger",
+                                            "NationalNews": "National News",
+                                            "InternationalNews": "International News",
+                                            "GovernmentScheme": "Government Scheme",
+                                            "Festival": "Festival",
+                                            "Sports": "Sports",
+                                            "ScienceTechnology": "Science & Technology",
+                                            "Place": "Place",
+                                            "Inauguration": "Inauguration",
+                                            "Environment": "Environment",
+                                            "Ecology": "Ecology",
+                                            "StateNews": "State News",
+                                            "SummitEvent": "Summit / Event",
+                                            "Days": "Days"
+                                        };
+                                    %>
+                                    <%= genreNames[genre] || genre %>
+                                </h2>
+                                <table class="genre-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>News</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% grouped[genre].forEach((s,index) => { %>
+                                            <tr>
+                                                <td><%= index + 1 %></td>
+                                                <td><%= s.sentence %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+<script>
+    const genreFilter = document.getElementById("genreFilter");
+    const blocks = document.querySelectorAll(".genre-block");
+
+    genreFilter.addEventListener("change", function() {
+        const selected = this.value;
+        blocks.forEach(block => {
+            if (selected === "" || block.dataset.genre === selected) {
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+        });
+    });
+</script>
+<script src="/nav_bar.js"></script>
+</body>
+</html>

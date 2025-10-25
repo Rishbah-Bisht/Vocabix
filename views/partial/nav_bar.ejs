@@ -40,30 +40,38 @@
             </a>
 
             <a href="/idioms" class="nav-link <%= currentPage === 'Phrases' ? 'active' : '' %>">
-                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                            </path>
-                                        </svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
                 <p>Phrases</p>
             </a>
 
-            <a href="#grid" class="nav-link <%= currentPage === 'percentage' ? 'active' : '' %>">
+            <a href="/tables" class="nav-link <%= currentPage === 'table' ? 'active' : '' %>">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                     </path>
                 </svg>
-                <p>Percentage</p>
+                <p>Tables</p>
+            </a>
+
+            <a href="/General-Awarness" class="nav-link <%= currentPage === 'G.A' ? 'active' : '' %>">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3a7 7 0 0 1 7 7c0 3.251-2.525 5.403-3.742 6.459c-.548.476-.879 1.164-.879 1.888V20a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1.653c0-.724-.33-1.412-.879-1.888C7.525 15.403 5 13.251 5 10a7 7 0 0 1 7-7z" />
+                </svg>
+
+                <p>G.A</p>
             </a>
         </nav>
     </div>
 
     <div class="sidebar-profile">
-        <a href="#profile" class="profile-link">
-            <img src="https://placehold.co/40x40/E0FDFB/1C2135?text=<% %>" alt="Profile" class="profile-img">
+        <a href="/profile" class="profile-link <%= currentPage === 'profile' ? 'active' : '' %>">
+            <img src="https://placehold.co/40x40/E0FDFB/1C2135?text=p" alt="Profile" class="profile-img">
             <p>Profile</p>
         </a>
     </div>
 </aside>
-

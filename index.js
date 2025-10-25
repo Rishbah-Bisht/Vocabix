@@ -13,6 +13,8 @@ const authRoutes = require('./routes/auth');
 const Admin_Work = require('./routes/Admin_Work');
 const vocabs = require('./routes/vocabs');
 const idoms = require('./routes/idoms');
+const table = require('./routes/table');
+const gA = require('./routes/gA');
 
 const app = express();
 
@@ -55,7 +57,8 @@ app.set("views", [
     path.join(__dirname, "views/Webpages/square_cube"),
     path.join(__dirname, "views/Webpages/idoms"),
     path.join(__dirname, "views/Webpages/vocab"),
-    path.join(__dirname, "views/Webpages/percentage"),
+    path.join(__dirname, "views/Webpages/table"),
+    path.join(__dirname, "views/Webpages/G.a"),
 ]);
 
 // ------------------ FLASH ------------------
@@ -71,6 +74,8 @@ app.use('/', authRoutes);
 app.use('/', vocabs);
 app.use('/', Admin_Work);
 app.use('/', idoms);
+app.use('/', table);
+app.use('/', gA);
 
 // ------------------ START SERVER ------------------
 const PORT = process.env.PORT || 3000;

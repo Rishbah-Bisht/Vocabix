@@ -1,0 +1,329 @@
+<%- include('../partial/html_header') %>
+<title>VocabiX - Date-wise News</title>
+<link rel="stylesheet" href="/home_page.css">
+<link rel="stylesheet" href="/nav_bar.css">
+<style>
+.vocabulary-container {
+  padding: 2rem;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+.vocabulary-container h1{
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
+.letter-heading{
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  background: var(--color-white);
+}
+/* Table Base */
+.words-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  font-size: 0.95rem;
+}
+.words-table th,
+.words-table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+.words-table th {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.words-table td {
+  color: var(--color-gray-800);
+  vertical-align: top;
+  cursor: pointer;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.words-table tr:nth-child(even) td {
+  background-color: #e0e7ff;
+}
+.words-table tr:hover td {
+  background-color: rgb(177, 195, 255);
+  transition: background 0.3s ease;
+}
+.no-words {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+.no-words i {
+  font-size: 3rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  display: block;
+}
+.no-words a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.date-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 8px;
+  flex: 1 1 200px;
+  font-size: 1rem;
+}
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-cyan);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.search-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.no-words a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 768px) {
+  .words-table thead { display: none; }
+  .words-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 10px;
+    padding: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  }
+  .words-table td {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border: none;
+  }
+  .vocabulary-container {
+    padding: 1rem;
+  }
+  .words-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 0.3rem;
+  }
+  .page-title {
+    font-size: 1.6rem;
+  }
+}
+</style>
+<body>
+ <div class="overlay" id="overlay"></div>
+ <div class="main-container">
+   <%- include('../partial/nav_bar', { currentPage: 'G.A' }) %>
+   <main class="main-content">
+     <%- include('../partial/header_nav_bar') %>
+     <div class="vocabulary-container">
+       <div class="page-header">
+         <h1 class="page-title"><i class="fas fa-calendar-day"></i> Date-wise News</h1>
+       </div>
+       <div class="search-container">
+         <input type="date" id="newsDate" class="date-input" aria-label="Choose news date" />
+         <button class="search-btn" id="searchBtn">
+           <i class="fas fa-search"></i>
+           <span>Search</span>
+         </button>
+       </div>
+       <div id="resultsContainer" class="results-container">
+         <!-- News table dynamically injected here -->
+         <% if(newsData && newsData.length > 0) { %>
+         <div class="table-responsive">
+           <table class="words-table genre-table">
+             <thead>
+               <tr>
+                 <th>#</th>
+                 <th>News</th>
+                 <th>Genre</th>
+               </tr>
+             </thead>
+             <tbody>
+             <% newsData.forEach((item, index) => { %>
+               <tr>
+                 <td data-label="#"> <%= index+1 %> </td>
+                 <td data-label="News"> <%= item.sentence %> </td>
+                 <td data-label="Genre">
+                   <% 
+                   const genreNames = {
+                     "Appointment": "Appointment",
+                     "BookAuthor": "Book & Author",
+                     "Defense": "Defense",
+                     "NewCommittee": "Committee",
+                     "MOU": "MOU",
+                     "Obituary": "Obituary",
+                     "ReportIndex": "Report / Index",
+                     "BankingFinanceEco": "Banking / Finance / Economy",
+                     "Merger": "Merger",
+                     "NationalNews": "National News",
+                     "InternationalNews": "International News",
+                     "GovernmentScheme": "Government Scheme",
+                     "Festival": "Festival",
+                     "Sports": "Sports",
+                     "ScienceTechnology": "Science & Technology",
+                     "Place": "Place",
+                     "Inauguration": "Inauguration",
+                     "Environment": "Environment",
+                     "Ecology": "Ecology",
+                     "StateNews": "State News",
+                     "SummitEvent": "Summit / Event",
+                     "Days": "Days"
+                   };
+                   %>
+                   <%= genreNames[item.gener] || item.gener %>
+                 </td>
+               </tr>
+             <% }) %>
+             </tbody>
+           </table>
+         </div>
+         <% } else { %>
+         <div class="no-words" id="noDataMsg">
+           <i class="fas fa-newspaper"></i>
+           No news found.
+         </div>
+         <% } %>
+       </div>
+     </div>
+   </main>
+ </div>
+<script>
+async function getNewsByDate(date) {
+  try {
+    const res = await fetch(`/General-Awarness/Date-Wise/filter`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date })
+    });
+    const data = await res.json();
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = '';
+    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+      let tableHTML = `
+        <div class="table-responsive">
+        <table class="words-table genre-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>News</th>
+              <th>Genre</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.data.map((item, index) => {
+                const genreNames = {
+                  "Appointment": "Appointment",
+                  "BookAuthor": "Book & Author",
+                  "Defense": "Defense",
+                  "NewCommittee": "Committee",
+                  "MOU": "MOU",
+                  "Obituary": "Obituary",
+                  "ReportIndex": "Report / Index",
+                  "BankingFinanceEco": "Banking / Finance / Economy",
+                  "Merger": "Merger",
+                  "NationalNews": "National News",
+                  "InternationalNews": "International News",
+                  "GovernmentScheme": "Government Scheme",
+                  "Festival": "Festival",
+                  "Sports": "Sports",
+                  "ScienceTechnology": "Science & Technology",
+                  "Place": "Place",
+                  "Inauguration": "Inauguration",
+                  "Environment": "Environment",
+                  "Ecology": "Ecology",
+                  "StateNews": "State News",
+                  "SummitEvent": "Summit / Event",
+                  "Days": "Days"
+                };
+                const genre = genreNames[item.gener] || item.gener;
+                return `
+                  <tr>
+                    <td data-label="#">${index + 1}</td>
+                    <td data-label="News">${item.sentence}</td>
+                    <td data-label="Genre">${genre}</td>
+                  </tr>
+                `;
+              }).join('')}
+          </tbody>
+        </table>
+        </div>
+      `;
+      container.innerHTML = tableHTML;
+    } else {
+      container.innerHTML = `
+        <div class="no-words" id="noDataMsg">
+          <i class="fas fa-newspaper"></i>
+          No news found for this date.
+        </div>`;
+    }
+  } catch (err) {
+    document.getElementById('resultsContainer').innerHTML = `
+      <div class="no-words">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Error loading news. Please try again.</p>
+      </div>`;
+  }
+}
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const date = document.getElementById('newsDate').value;
+  if (!date) {
+    alert('Please select a date');
+    return;
+  }
+  getNewsByDate(date);
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('newsDate').value = today;
+  getNewsByDate(today);
+});
+</script>
+<script src="/nav_bar.js"></script>
+</body>
+</html>

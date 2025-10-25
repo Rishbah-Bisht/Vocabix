@@ -1,0 +1,288 @@
+<%- include('../partial/html_header') %>
+
+    <title>VocabiX - Add G.A</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    </head>
+    <style>
+        /* Container for the form */
+        .vocab-container {
+            padding: 2rem;
+            font-family: 'Poppins', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Form heading */
+        .vocab-container h1 {
+            color: var(--primary-color);
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-cyan) 100%);
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Sentence row container */
+        .sentence-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-card, #fff);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Input and select fields */
+        .sentence-row input,
+        .sentence-row select {
+            flex: 1 1 180px;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color, #ccc);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .sentence-row input:focus,
+        .sentence-row select:focus {
+            outline: none;
+            border-color: var(--accent-blue, #3b82f6);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Delete button */
+        .delete-btn {
+            background-color: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #DC2626;
+            transform: scale(1.05);
+        }
+
+        /* Add & Submit buttons */
+        #addMoreBtn,
+        #submitBtn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1rem;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        #addMoreBtn {
+            background: linear-gradient(128deg, #85b0e2c5, var(--color-cyan));
+            color: white;
+            margin-right: 1rem;
+        }
+
+        #addMoreBtn:hover {
+            background: linear-gradient(128deg, var(--color-cyan), #85b0e2c5);
+        }
+
+        #submitBtn {
+
+            background: linear-gradient(128deg, #807f7fc5, var(--color-primary));
+            color: white;
+        }
+
+        #submitBtn {
+
+            background: linear-gradient(128deg, var(--color-primary), #807f7fc5);
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sentence-row {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .delete-btn {
+                align-self: flex-end;
+                width: 100%;
+            }
+
+            #addMoreBtn,
+            #submitBtn {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+
+
+    <body>
+        <!-- Mobile Menu Button -->
+
+
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'G.A' }) %>
+                <!-- Main Content -->
+                <main class="main-content">
+
+                    <%- include('../partial/header_nav_bar') %>
+                        <div class="vocab-container">
+                            <h1>Add New New's </h1>
+
+                            <form id="sentenceForm">
+                                <div id="sentenceInputs">
+                                    <!-- First sentence input row -->
+                                    <div class="sentence-row">
+                                        <input type="text" name="sentence[]" placeholder="Sentence" required />
+                                        <select name="genre[]" required>
+                                            <option value="">Select Genre</option>
+                                            <option value="Appointment">Appointment</option>
+                                            <option value="BookAuthor">Book & Author</option>
+                                            <option value="Defense">Defense</option>
+                                            <option value="NewCommittee">New Committee</option>
+                                            <option value="MOU">MOU</option>
+                                            <option value="Obituary">Obituary</option>
+                                            <option value="ReportIndex">Report / Index</option>
+                                            <option value="BankingFinanceEco">Banking / Finance / Economy</option>
+                                            <option value="Merger">Merger</option>
+                                            <option value="NationalNews">National News</option>
+                                            <option value="InternationalNews">International News</option>
+                                            <option value="GovernmentScheme">Government Scheme</option>
+                                            <option value="Festival">Festival</option>
+                                            <option value="Sports">Sports</option>
+                                            <option value="ScienceTechnology">Science & Technology</option>
+                                            <option value="Place">Place</option>
+                                            <option value="Inauguration">Inauguration</option>
+                                            <option value="Environment">Environment</option>
+                                            <option value="Ecology">Ecology</option>
+                                            <option value="StateNews">State News</option>
+                                            <option value="SummitEvent">Summit / Event</option>
+                                            <option value="Days">Days</option>
+
+                                        </select>
+                                        <input type="hidden" name="userId" value="<%= userId %>">
+
+
+                                        <button type="button" class="delete-btn">✖</button>
+                                    </div>
+                                </div>
+
+                                <button type="button" id="addMoreBtn">Add More</button>
+                                <button type="submit" id="submitBtn">Submit All</button>
+                            </form>
+                        </div>
+                </main>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const addMoreBtn = document.getElementById('addMoreBtn');
+                const sentenceInputs = document.getElementById('sentenceInputs');
+                const sentenceForm = document.getElementById('sentenceForm');
+
+                // Add new sentence row
+                addMoreBtn.addEventListener('click', () => {
+                    const newRow = document.createElement('div');
+                    newRow.className = 'sentence-row';
+                    newRow.innerHTML = `
+            <input type="text" name="sentence[]" placeholder="Sentence" required />
+            <select name="genre[]" required>
+                <option value="">Select Genre</option>
+                <option value="Appointment">Appointment</option>
+                <option value="BookAuthor">Book & Author</option>
+                <option value="Defense">Defense</option>
+                <option value="NewCommittee">New Committee</option>
+                <option value="MOU">MOU</option>
+                <option value="Obituary">Obituary</option>
+                <option value="ReportIndex">Report / Index</option>
+                <option value="BankingFinanceEco">Banking / Finance / Economy</option>
+                <option value="Merger">Merger</option>
+                <option value="NationalNews">National News</option>
+                <option value="InternationalNews">International News</option>
+                <option value="GovernmentScheme">Government Scheme</option>
+                <option value="Festival">Festival</option>
+                <option value="Sports">Sports</option>
+                <option value="ScienceTechnology">Science & Technology</option>
+                <option value="Place">Place</option>
+                <option value="Inauguration">Inauguration</option>
+                <option value="Environment">Environment</option>
+                <option value="Ecology">Ecology</option>
+                <option value="StateNews">State News</option>
+                <option value="SummitEvent">Summit / Event</option>
+                <option value="Days">Days</option>
+            </select>
+            <input type="hidden" name="userId" value="<%= userId %>">
+            <button type="button" class="delete-btn">✖</button>
+        `;
+                    sentenceInputs.appendChild(newRow);
+                });
+
+                // Delete sentence row
+                sentenceInputs.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('delete-btn')) {
+                        const rows = sentenceInputs.querySelectorAll('.sentence-row');
+                        if (rows.length > 1) {
+                            e.target.parentElement.remove();
+                        } else {
+                            alert('At least one sentence is required!');
+                        }
+                    }
+                });
+
+                // Handle form submission
+                sentenceForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    // Collect all rows
+                    const sentenceRows = document.querySelectorAll('.sentence-row');
+                    const sentenceData = Array.from(sentenceRows).map(row => ({
+                        sentence: row.querySelector('input[name="sentence[]"]').value,
+                        genre: row.querySelector('select[name="genre[]"]').value,
+                        userId: row.querySelector('input[name="userId"]').value
+                    }));
+
+                    try {
+                        const res = await fetch('/add-sentence', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ sentences: sentenceData })
+                        });
+
+                        const result = await res.json();
+
+                        if (res.ok) {
+                            alert(result.message);
+                            window.location.reload();
+                        } else {
+                            alert('Error: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Error submitting sentences:', error);
+                        alert('Error submitting sentences.');
+                    }
+                });
+            });
+        </script>
+<script src="/nav_bar.js"></script>
+    </body>
+
+    </html>
