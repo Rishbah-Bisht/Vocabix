@@ -73,7 +73,7 @@
             /* Top/bottom + left/right padding */
             width: 100%;
             /* Full width of the sidebar container */
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             /* Smooth rounded corners */
             color: #9CA3AF;
             /* Tailwind gray-400 equivalent */
@@ -113,6 +113,7 @@
             background: linear-gradient(106deg, rgba(56, 53, 62, 0.895), rgba(100, 100, 120, 0.7));
             align-items: center;
             border-radius:10px;
+            margin-bottom: .5rem;
             transition: background var(--transition-normal) ease;
         }
 

@@ -1,125 +1,175 @@
 <%- include('../partial/html_header') %>
 
-<title>VocabiX - Profile</title>
-<link rel="stylesheet" href="/home_page.css">
-<link rel="stylesheet" href="/nav_bar.css">
-<style>
-:root {
-  --card-bg: #fafafad1;
-  --primary-shadow: 0 4px 16px rgba(30,224,224,0.09);
-  --avatar-shadow: 0 6px 24px rgba(76, 28, 134, 0.12);
-  --label-color: #8B5CF6;
-  --gradient: linear-gradient(135deg, #483c72 0%, #454747 100%);
-}
+    <title>VocabiX - Profile</title>
+    <link rel="stylesheet" href="/home_page.css">
+    <link rel="stylesheet" href="/nav_bar.css">
+    <style>
+        /* Options Grid */
+        .options-grid {
+           display: grid;
+      grid-template-columns: max(300px, 1fr); /* min width 300px, max 1fr */ /* Single column */
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 5rem auto;
+        }
+
+        /* Card */
+        .option-card {
+       background: var(--color-white);
+    border: 1px solid var(--color-gray-100);
+    border-radius: .4rem;
+    box-shadow: var(--shadow-xl);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    text-decoration: none;
+    transition: all var(--transition-normal) ease;
+        }
+
+        .option-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Card Icon */
+        .option-card .icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 1rem;
+            display: flex;
+            color: black;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-card .icon svg {
+            width: 32px;
+            color: black;
+            height: 32px;
+        }
+
+        /* Icon Glow Variants */
+        .icon-cyan {
+            background-color: var(--color-glow-cyan);
+            box-shadow: 0 0 20px 10px var(--color-glow-cyan);
+        }
+
+        .icon-cyan svg {
+            color: red;
+        }
+
+        .icon-green {
+            color: white;
+            background-color: var(--color-glow-green);
+            box-shadow: 0 0 20px 10px var(--color-glow-green);
+        }
+
+        .icon-green svg {
+            color: var(--color-green);
+        }
+
+        .icon-blue {
+            background-color: var(--color-glow-blue);
+            box-shadow: 0 0 20px 10px var(--color-glow-blue);
+        }
+
+        .icon-blue svg {
+            color: var(--color-blue);
+        }
+
+        /* Card Title */
+        .option-card .option-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            text-align: left;
+        }
+
+        /* Card Button */
+        .option-card .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: black;
+            color: var(--color-white);
+            transition: all 0.3s ease;
+        }
 
 
+        .proImg {
+            width: 60px;
+            /* Adjust size */
+            height: 60px;
+            /* Make it square */
+            border-radius: 50%;
+            /* Makes it circular */
+            object-fit: cover;
+            /* Ensure image covers container */
+            border: 2px solid #fff;
+            /* Optional white border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Soft shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Smooth hover effect */
+            cursor: pointer;
+            /* Shows pointer on hover */
+        }
 
-.profile-container {
-  max-width: 500px;
-  margin: 3.5rem auto;
-  padding: 2.25rem 2rem 2.5rem 2rem;
-  background: var(--card-bg);
+        /* Optional: hover effect */
+        .proImg:hover {
+            transform: scale(1.1);
+            /* Slight zoom on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            /* Slightly stronger shadow */
+        }
 
-  text-align: center;
-  position: relative;
-}
-.profile-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  z-index: 0;
-  pointer-events: none;
+        /* Responsive */
+        @media (max-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .option-card{
+                margin: 1rem;
+            }
+        }
+    </style>
 
-  opacity: 0.08;
-}
+    <body>
+        <!-- Overlay for mobile nav etc. -->
+        <div class="overlay" id="overlay"></div>
+        <div class="main-container">
+            <%- include('../partial/nav_bar', { currentPage: 'profile' }) %>
+                <main class="main-content">
+                    <%- include('../partial/header_nav_bar') %>
 
-.profile-header {
-  font-size: 2.15rem;
-  font-weight: 700;
-  margin-bottom: 1.4rem;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+                        <div class="options-grid">
+                            <div class="option-card daywise-card">
+                                <div class="icon icon-cyan">
+                                    <img src="/uploads/Profile/Profile.png" alt="Profile" class="proImg">
+                                </div>
+                                <h2 class="option-title"> Name: <%= user.name %>
+                                </h2>
+                                <h2 class="option-title"> Login Id: <%= user.number %>
+                                </h2>
+                                <h2 class="option-title"> User Id: <%= user._id %>
+                                </h2>
 
-.profile-avatar {
-  display: inline-block;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  box-shadow: var(--avatar-shadow);
-  border: 4px solid #383839;
-  overflow: hidden;
-  background: #f4f7fa;
-  margin-bottom: 1rem;
-  transition: transform 0.36s cubic-bezier(.4,0,.2,1), border-color 0.36s cubic-bezier(.4,0,.2,1);
-}
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-.profile-avatar:hover {
-  transform: scale(1.07);
-  border-color: #29292a;
-}
-.profile-info {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.92rem;
-}
-.profile-info__label {
-  font-size: 1.05rem;
-  color: var(--label-color);
-  font-weight: 600;
-  margin-right: 0.4rem;
-  vertical-align: middle;
-}
-.profile-info__data {
-  color: #22223b;
-  font-size: 1.08rem;
-  font-weight: 500;
-}
-@media (max-width: 600px) {
-  .profile-container { padding: 1.1rem 0.5rem 1.5rem 0.5rem; }
-  .profile-header { font-size: 1.35rem; }
-  .profile-avatar { width: 83px; height: 83px; }
-  .profile-info__data { font-size: 0.98rem; }
-}
-</style>
-<body>
-  <!-- Overlay for mobile nav etc. -->
-  <div class="overlay" id="overlay"></div>
-  <div class="main-container">
-    <%- include('../partial/nav_bar', { currentPage: 'profile' }) %>
-      <main class="main-content">
-        <%- include('../partial/header_nav_bar') %>
-        <div class="profile-container">
-            <div class="profile-header">Profile</div>
-            <div class="profile-avatar">
-                <img src="/uploads/Profile/Profile.png" alt="Profile">
-            </div>
-            <div class="profile-info">
-                <div>
-                  <span class="profile-info__label"><i class="fa fa-user"></i> Name:</span>
-                  <span class="profile-info__data"><%= user.name %></span>
-                </div>
-                <div>
-                  <span class="profile-info__label"><i class="fa fa-phone"></i> Number:</span>
-                  <span class="profile-info__data"><%= user.number %></span>
-                </div>
-                <div>
-                  <span class="profile-info__label"><i class="fa fa-id-badge"></i> ID:</span>
-                  <span class="profile-info__data"><%= user._id %></span>
-                </div>
-            </div>
+                            </div>
+
+
+                        </div>
+
+                </main>
         </div>
-      </main>
-  </div>
-</body>
-</html>
+        
+<script src="/nav_bar.js"></script>
+    </body>
+
+    </html>
